@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding教程 · Hero 5变体</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #F1752D;
+  --orange-deep: #D45A1A;
+  --orange-light: #FFE0CC;
+  --blue: #2B7FD8;
+  --dark: #1A1A2E;
+  --cream: #fefcf6;
+  --cream-dark: #faf6eb;
+  --ink: #1A1A2E;
+  --ink-light: #4A4A5A;
+  --ink-faint: #8A8A9A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans SC', sans-serif; background: #e8e4de; }
+h2.label { text-align: center; font-size: 12px; color: #888; margin: 60px 0 0; letter-spacing: 2px; text-transform: uppercase; }
+
+/* ===== V1: 全屏居中极简 ===== */
+.hero-v1 {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.hero-v1::before {
+  content: 'VIBE';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fraunces', serif;
+  font-size: clamp(12rem, 25vw, 20rem);
+  font-weight: 900;
+  color: var(--orange);
+  opacity: 0.04;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero-v1 .content { position: relative; z-index: 2; max-width: 680px; }
+.hero-v1 .label-caps { font-family: 'Fira Code', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 2rem; }
+.hero-v1 h1 { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: clamp(2.6rem, 6vw, 4.5rem); line-height: 1.2; }
+.hero-v1 h1 .hl { color: var(--orange); }
+.hero-v1 .sub { font-size: 1.1rem; color: var(--ink-light); margin-top: 1.5rem; line-height: 1.8; }
+.hero-v1 .tag { font-family: 'Caveat', cursive; font-size: 1.3rem; color: var(--orange); margin-top: 2rem; display: block; }
+
+/* ===== V2: 左对齐大标题 + 右侧大装饰数字 ===== */
+.hero-v2 {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.2fr 0.6fr;
+  align-items: center;
+  padding: 6rem 4rem;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.hero-v2 .text {}
+.hero-v2 .text .label-caps { font-family: 'Fira Code', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.5rem; }
+.hero-v2 .text h1 { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.25; }
+.hero-v2 .text h1 .hl { color: var(--orange); }
+.hero-v2 .text .sub { font-size: 1.05rem; color: var(--ink-light); margin-top: 1.5rem; line-height: 1.9; max-width: 480px; }
+.hero-v2 .text .tag { font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--orange); margin-top: 2rem; display: block; }
+.hero-v2 .deco {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(8rem, 18vw, 14rem);
+  font-weight: 900;
+  color: var(--orange);
+  opacity: 0.08;
+  line-height: 0.9;
+  text-align: right;
+  user-select: none;
+}
+
+/* ===== V3: 全宽橙色底 ===== */
+.hero-v3 {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem 4rem;
+  background: var(--orange);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.hero-v3::before {
+  content: '0→1';
+  position: absolute;
+  bottom: -5%; right: -2%;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(10rem, 22vw, 18rem);
+  font-weight: 900;
+  opacity: 0.08;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero-v3 .content { position: relative; z-index: 2; max-width: 650px; }
+.hero-v3 .label-caps { font-family: 'Fira Code', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; margin-bottom: 2rem; }
+.hero-v3 h1 { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.25; }
+.hero-v3 .sub { font-size: 1.05rem; margin-top: 1.5rem; opacity: 0.85; line-height: 1.9; }
+.hero-v3 .pills { margin-top: 2.5rem; display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-v3 .pill { background: rgba(255,255,255,0.15); border-radius: 6px; padding: 8px 16px; font-size: 0.82rem; backdrop-filter: blur(4px); }
+
+/* ===== V4: 左深色面板 + 右奶白文字 ===== */
+.hero-v4 {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 0.35fr 1fr;
+  background: var(--cream);
+  overflow: hidden;
+}
+.hero-v4 .left {
+  background: var(--dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: white;
+  text-align: center;
+}
+.hero-v4 .left .big-text {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 900;
+  color: var(--orange);
+  line-height: 1;
+}
+.hero-v4 .left .small-note { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-top: 12px; }
+.hero-v4 .left .steps-mini { margin-top: 2rem; font-family: 'Fira Code', monospace; font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 2.2; }
+.hero-v4 .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3rem, 6vw, 6rem);
+}
+.hero-v4 .right .label-caps { font-family: 'Fira Code', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 1.5rem; }
+.hero-v4 .right h1 { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.3; }
+.hero-v4 .right h1 .hl { color: var(--orange); }
+.hero-v4 .right .sub { font-size: 1rem; color: var(--ink-light); margin-top: 1.5rem; line-height: 1.9; max-width: 520px; }
+.hero-v4 .right .tag { font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--orange); margin-top: 2rem; display: block; }
+
+/* ===== V5: 纯文字排版 editorial ===== */
+.hero-v5 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem clamp(3rem, 8vw, 8rem);
+  background: var(--cream);
+  position: relative;
+}
+.hero-v5::after {
+  content: '';
+  position: absolute;
+  top: 10%; right: 8%;
+  width: 200px; height: 200px;
+  border: 2.5px dashed var(--orange);
+  border-radius: 50%;
+  opacity: 0.12;
+  pointer-events: none;
+}
+.hero-v5 .label-caps { font-family: 'Fira Code', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 2rem; }
+.hero-v5 h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.15;
+  max-width: 900px;
+}
+.hero-v5 h1 .hl { color: var(--orange); }
+.hero-v5 h1 .hl-underline {
+  background: linear-gradient(180deg, transparent 55%, rgba(241,117,45,0.2) 55%);
+  display: inline;
+}
+.hero-v5 .sub {
+  font-size: 1.15rem;
+  color: var(--ink-light);
+  margin-top: 2rem;
+  max-width: 500px;
+  line-height: 1.9;
+}
+.hero-v5 .meta-row {
+  margin-top: 3rem;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.hero-v5 .meta-row .meta-item { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--ink-faint); }
+.hero-v5 .meta-row .meta-item .val { color: var(--orange); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .hero-v2, .hero-v4 { grid-template-columns: 1fr; min-height: auto; }
+  .hero-v4 .left { padding: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- V1: 全屏居中极简 + oversized VIBE水印 -->
+<h2 class="label">变体1 · 全屏居中 + Oversized水印</h2>
+<section class="hero-v1">
+  <div class="content">
+    <span class="label-caps">Vibe Coding · Tutorial</span>
+    <h1>从0到1<br>用AI对话<span class="hl">搓出</span><br>你的个人网站</h1>
+    <p class="sub">不需要学编程，不需要买服务器。一个人 + 一个AI，7步搞定。</p>
+    <span class="tag">—— 全程不写一行代码 ✦</span>
+  </div>
+</section>
+
+<!-- V2: 左对齐大标题 + 右侧大装饰数字 -->
+<h2 class="label">变体2 · 左标题 + 右大装饰字</h2>
+<section class="hero-v2">
+  <div class="text">
+    <span class="label-caps">Vibe Coding · Tutorial</span>
+    <h1>从0到1<br>用AI对话<span class="hl">搓出</span><br>你的个人网站</h1>
+    <p class="sub">不需要学编程，不需要买服务器。一个人 + 一个AI，7步搞定。</p>
+    <span class="tag">—— 全程不写一行代码 ✦</span>
+  </div>
+  <div class="deco">0<br>→<br>1</div>
+</section>
+
+<!-- V3: 全宽橙色底 -->
+<h2 class="label">变体3 · 全宽橙色品牌面板</h2>
+<section class="hero-v3">
+  <div class="content">
+    <span class="label-caps">Vibe Coding · 7-Step Tutorial</span>
+    <h1>从0到1<br>用AI对话搓出<br>你的个人网站</h1>
+    <p class="sub">不需要学编程，不需要买服务器。一个人 + 一个AI，7步搞定。全程不写一行代码。</p>
+    <div class="pills">
+      <span class="pill">🚫 不用学编程</span>
+      <span class="pill">🚫 不用买服务器</span>
+      <span class="pill">✅ 7步上线</span>
+    </div>
+  </div>
+</section>
+
+<!-- V4: 左深色面板 + 右文字 -->
+<h2 class="label">变体4 · 左深色面板 + 右文字</h2>
+<section class="hero-v4">
+  <div class="left">
+    <span class="big-text">7</span>
+    <span class="small-note">步搞定</span>
+    <div class="steps-mini">
+      find → structure → content<br>
+      style → build → assemble → deploy
+    </div>
+  </div>
+  <div class="right">
+    <span class="label-caps">Vibe Coding · Tutorial</span>
+    <h1>从0到1<br>用AI对话<span class="hl">搓出</span><br>你的个人网站</h1>
+    <p class="sub">不需要学编程，不需要买服务器。一个人 + 一个AI就够了。</p>
+    <span class="tag">—— 全程不写一行代码 ✦</span>
+  </div>
+</section>
+
+<!-- V5: 纯文字editorial排版 -->
+<h2 class="label">变体5 · 纯文字editorial + 虚线圆装饰</h2>
+<section class="hero-v5">
+  <span class="label-caps">ColaOS · Vibe Coding Tutorial</span>
+  <h1>用AI对话<br><span class="hl-underline">搓出你的</span><br><span class="hl">个人网站</span></h1>
+  <p class="sub">不需要学编程，不需要买服务器。一个人 + 一个AI，从0到1，7步上线。</p>
+  <div class="meta-row">
+    <span class="meta-item">难度 <span class="val">零基础</span></span>
+    <span class="meta-item">耗时 <span class="val">1-2小时</span></span>
+    <span class="meta-item">代码 <span class="val">0行</span></span>
+  </div>
+</section>
+
+</body>
+</html>

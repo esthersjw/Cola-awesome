@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从0到1，用AI对话搓出你的个人网站</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #F1752D;
+  --orange-deep: #D45A1A;
+  --orange-light: #FFE0CC;
+  --blue: #2B7FD8;
+  --blue-deep: #1E5BA8;
+  --dark: #1A1A2E;
+  --cream: #fefcf6;
+  --cream-dark: #faf6eb;
+  --ink: #1A1A2E;
+  --ink-light: #4A4A5A;
+  --ink-faint: #8A8A9A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+::selection { background: rgba(241,117,45,0.2); color: var(--ink); }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+/* ====== HERO — 全宽橙色品牌面板 ====== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem clamp(2rem, 6vw, 4rem);
+  background: var(--orange);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '0→1';
+  position: absolute;
+  bottom: -5%; right: -2%;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(10rem, 22vw, 18rem);
+  font-weight: 900;
+  opacity: 0.08;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+.hero-content .label-caps {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 2rem;
+}
+.hero-content h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  line-height: 1.25;
+}
+.hero-content .subtitle {
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  opacity: 0.85;
+  line-height: 1.9;
+}
+.hero-content .hero-pills {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.hero-content .hero-pills .pill {
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  backdrop-filter: blur(4px);
+}
+
+/* ====== SECTION: 成品展示 MacBook Frame ====== */
+.section-showcase {
+  padding: clamp(80px, 12vh, 140px) 0;
+  background: var(--cream-dark);
+}
+.showcase-header {
+  text-align: center;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+.showcase-header .showcase-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: block;
+  margin-bottom: 12px;
+}
+.showcase-header .showcase-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+}
+.macbook-frame {
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.12), 0 4px 20px rgba(0,0,0,0.06);
+  background: #fff;
+}
+.macbook-top {
+  background: #f5f5f5;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+.macbook-dots {
+  display: flex;
+  gap: 7px;
+}
+.macbook-dots span {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+}
+.macbook-dots span:nth-child(1) { background: #f87171; }
+.macbook-dots span:nth-child(2) { background: #fbbf24; }
+.macbook-dots span:nth-child(3) { background: #34d399; }
+.macbook-url {
+  flex: 1;
+  text-align: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  background: white;
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: 1px solid #e8e8e8;
+}
+.macbook-screen {
+  width: 100%;
+  height: 540px;
+  overflow: hidden;
+}
+.macbook-screen iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform-origin: top left;
+}
+.showcase-note {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.showcase-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  background: var(--orange-light);
+  color: var(--orange-deep);
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+/* ====== SECTION: 灵感网站表格 — Layout #13 分栏 ====== */
+.section-inspiration {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--cream-dark);
+}
+.inspo-layout {
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+}
+.inspo-left {
+  position: sticky;
+  top: 80px;
+}
+.inspo-left .section-num {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+  color: var(--orange);
+  opacity: 0.15;
+  line-height: 1;
+}
+.inspo-left h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-top: 8px;
+}
+.inspo-left .sub {
+  font-size: 0.88rem;
+  color: var(--ink-light);
+  margin-top: 12px;
+  line-height: 1.7;
+}
+.inspo-right {}
+.inspo-group { margin-bottom: 40px; }
+.inspo-group:last-child { margin-bottom: 0; }
+.inspo-group h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.inspo-group h3 .emoji { font-size: 1.2rem; }
+.site-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.site-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.site-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(241,117,45,0.08); }
+.site-card .site-name { font-weight: 700; font-size: 0.88rem; color: var(--blue); margin-bottom: 4px; }
+.site-card .site-desc { font-size: 0.78rem; color: var(--ink-light); }
+.github-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.gh-pill {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  color: var(--ink);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+.gh-pill .gh-note { font-family: 'Noto Sans SC', sans-serif; font-size: 0.72rem; color: var(--ink-faint); margin-top: 4px; }
+
+/* ====== SECTION: Tips 2-5 — Layout #4 Step流程线 ====== */
+.section-steps {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--cream);
+}
+.steps-header {
+  margin-bottom: clamp(48px, 6vw, 80px);
+}
+.steps-header .section-num {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+  color: var(--orange);
+  opacity: 0.15;
+  line-height: 1;
+}
+.steps-header h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  margin-top: 8px;
+}
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 64px);
+  padding-left: 70px;
+  position: relative;
+  max-width: 800px;
+}
+.steps-container::before {
+  content: '';
+  position: absolute;
+  left: 22px;
+  top: 40px; bottom: 40px;
+  width: 2px;
+  border-left: 2px dashed var(--orange);
+  opacity: 0.25;
+}
+.step-item { position: relative; }
+.step-num {
+  position: absolute;
+  left: -70px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 16px rgba(241,117,45,0.3);
+}
+.step-content h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.step-content p {
+  font-size: 0.9rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+}
+.step-content .tip-highlight {
+  background: rgba(241,117,45,0.08);
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.step-content .tip-highlight strong { color: var(--orange); }
+
+/* ====== SECTION: Tip 5 分模块搓 — Layout #11 全宽品牌色 ====== */
+.section-modular {
+  background: var(--orange);
+  color: white;
+  padding: clamp(80px, 12vh, 140px) 0;
+  position: relative;
+  overflow: hidden;
+}
+.section-modular::before {
+  content: 'MODULE';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fraunces', serif;
+  font-size: clamp(8rem, 18vw, 14rem);
+  font-weight: 900;
+  opacity: 0.06;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.modular-content { position: relative; z-index: 2; max-width: 700px; }
+.modular-content .label-caps {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+.modular-content h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.3;
+}
+.modular-content .desc {
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  opacity: 0.85;
+  line-height: 1.9;
+}
+.modular-flow {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.modular-flow .m-pill {
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.85rem;
+  backdrop-filter: blur(4px);
+}
+.modular-flow .m-pill .m-arrow { opacity: 0.5; margin: 0 4px; }
+
+/* ====== SECTION: Tip 6 + 7 — Layout #3 卡片网格 ====== */
+.section-final {
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--cream-dark);
+}
+.final-header {
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+.final-header .section-num {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+  color: var(--orange);
+  opacity: 0.15;
+  line-height: 1;
+}
+.final-header h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  margin-top: 8px;
+}
+.final-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.final-card {
+  background: white;
+  border-radius: 16px;
+  padding: clamp(28px, 3vw, 40px);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.final-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+.final-card .card-emoji { font-size: 2.2rem; margin-bottom: 16px; }
+.final-card h3 { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+.final-card p { font-size: 0.88rem; color: var(--ink-light); line-height: 1.7; }
+.final-card .card-tag {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  background: var(--orange-light);
+  color: var(--orange-deep);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  padding: 48px 0;
+  text-align: center;
+}
+.footer .summary {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  color: var(--ink);
+  max-width: 600px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+.footer .footer-note {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.footer .brand {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.footer .brand img { height: 28px; }
+.footer .brand span { font-size: 0.78rem; color: var(--ink-faint); }
+
+/* ====== Scroll Reveal ====== */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+/* ====== Responsive ====== */
+@media (max-width: 900px) {
+  .hero { min-height: auto; padding: 100px 2rem 80px; }
+  .inspo-layout { grid-template-columns: 1fr; }
+  .inspo-left { position: static; }
+  .site-grid, .github-grid { grid-template-columns: 1fr; }
+  .final-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .steps-container { padding-left: 50px; }
+  .step-num { left: -50px; width: 36px; height: 36px; font-size: 0.9rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="hero-content reveal">
+    <span class="label-caps">Vibe Coding · 7-Step Tutorial</span>
+    <h1>从0到1<br>用AI对话搓出<br>你的个人网站</h1>
+    <p class="subtitle">不需要学编程，不需要买服务器。一个人 + 一个AI，7步搞定。全程不写一行代码。</p>
+    <div class="hero-pills">
+      <span class="pill">🚫 不用学编程</span>
+      <span class="pill">🚫 不用买服务器</span>
+      <span class="pill">✅ 7步上线</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SHOWCASE: 成品展示 ====== -->
+<section class="section-showcase">
+  <div class="container">
+    <div class="showcase-header reveal">
+      <span class="showcase-label">This is what you get ↓</span>
+      <h2 class="showcase-title">这是我用Cola搓出来的个人网站</h2>
+    </div>
+    <div class="macbook-frame reveal reveal-d1">
+      <div class="macbook-top">
+        <div class="macbook-dots"><span></span><span></span><span></span></div>
+        <div class="macbook-url">esthersjw.github.io/esther-website</div>
+      </div>
+      <div class="macbook-screen">
+        <iframe src="https://esthersjw.github.io/esther-website/" loading="lazy"></iframe>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== TIP 1: 灵感来源 ====== -->
+<section class="section-inspiration">
+  <div class="container">
+    <div class="inspo-layout">
+      <div class="inspo-left reveal">
+        <span class="section-num">01</span>
+        <h2>参考网站<br>从哪里来？</h2>
+        <p class="sub">做任何东西之前先看好的案例。别上来就搓。</p>
+      </div>
+      <div class="inspo-right">
+        <div class="inspo-group reveal reveal-d1">
+          <h3><span class="emoji">🤖</span> 直接让AI帮你找</h3>
+          <div class="site-grid">
+            <div class="site-card">
+              <div class="site-name">试试这样问</div>
+              <div class="site-desc">"帮我找5个好看的个人网站，告诉我它们好在哪"</div>
+            </div>
+            <div class="site-card">
+              <div class="site-name">AI给你的</div>
+              <div class="site-desc">参考链接 + 分析 → 你挑一个喜欢的方向</div>
+            </div>
+          </div>
+        </div>
+        <div class="inspo-group reveal reveal-d2">
+          <h3><span class="emoji">🌐</span> 灵感网站自己翻</h3>
+          <div class="site-grid">
+            <div class="site-card"><div class="site-name">Godly</div><div class="site-desc">审美门槛最高，全是动效+创意滚动</div></div>
+            <div class="site-card"><div class="site-name">Awwwards</div><div class="site-desc">网页设计界的奥斯卡，有评分</div></div>
+            <div class="site-card"><div class="site-name">SiteInspire</div><div class="site-desc">按风格/类型筛选，快速锁定感觉</div></div>
+            <div class="site-card"><div class="site-name">Httpster</div><div class="site-desc">新鲜、当下感强，看最潮趋势</div></div>
+            <div class="site-card"><div class="site-name">Site of Sites</div><div class="site-desc">按"氛围感"分类（极简/网格/字体流）</div></div>
+            <div class="site-card"><div class="site-name">Typewolf</div><div class="site-desc">专看字体搭配，找排版灵感</div></div>
+          </div>
+        </div>
+        <div class="inspo-group reveal reveal-d3">
+          <h3><span class="emoji">🐙</span> GitHub上搜</h3>
+          <div class="github-grid">
+            <div class="gh-pill"><code>personal website</code><div class="gh-note">几万个开源个人网站</div></div>
+            <div class="gh-pill"><code>portfolio template</code><div class="gh-note">作品集模板，改改就能用</div></div>
+            <div class="gh-pill"><code>awesome-personal-websites</code><div class="gh-note">优秀网站合集</div></div>
+            <div class="gh-pill"><code>resume template html</code><div class="gh-note">HTML简历模板</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TIP 2-4: Step流程线 ====== -->
+<section class="section-steps">
+  <div class="container">
+    <div class="steps-header reveal">
+      <span class="section-num">02–04</span>
+      <h2>定结构、填内容、定风格</h2>
+    </div>
+    <div class="steps-container">
+      <div class="step-item reveal">
+        <span class="step-num">2</span>
+        <div class="step-content">
+          <h3>让AI告诉你一个网站有哪些部分</h3>
+          <p>"一个个人网站通常有哪些模块？"——AI列出Hero区、关于我、作品集、时间线、联系方式等。你来选要哪些、不要哪些。</p>
+          <div class="tip-highlight"><strong>先定骨架再填肉</strong>，不要一口气全丢给AI。</div>
+        </div>
+      </div>
+      <div class="step-item reveal reveal-d1">
+        <span class="step-num">3</span>
+        <div class="step-content">
+          <h3>确定每个模块的内容</h3>
+          <p>逐个模块对齐："关于我写什么？""作品集放哪些？"——把你的真实信息填进去。你喂给AI的信息越多，出来的东西越像你。</p>
+          <div class="tip-highlight">❗ <strong>这是最花时间也最值得花时间的一步。</strong>每个模块对应你的一部分能力和经验，内容才是让人记住你的东西。</div>
+        </div>
+      </div>
+      <div class="step-item reveal reveal-d2">
+        <span class="step-num">4</span>
+        <div class="step-content">
+          <h3>让AI学习你的视觉风格</h3>
+          <p>丢你已有的网站/品牌色/喜欢的风格给它看。"参考这个网站的配色和排版风格"——给参考比描述风格有效10倍。</p>
+          <div class="tip-highlight"><strong>Cola会记住你的品牌色和审美偏好</strong>，后续所有设计自动对齐，不用每次重复说。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TIP 5: 分模块搓 — 全宽品牌色面板 ====== -->
+<section class="section-modular">
+  <div class="container">
+    <div class="modular-content reveal">
+      <span class="label-caps">Tip 05 · 核心方法</span>
+      <h2>分模块搓<br>每次只做一个部分</h2>
+      <p class="desc">先做Hero区 → 让AI一口气出5个方案 → 你选一个 → 优化。再做关于我 → 同样流程。逐个搓完所有模块。</p>
+      <div class="modular-flow">
+        <span class="m-pill">Hero区</span>
+        <span class="m-pill">关于我</span>
+        <span class="m-pill">作品集</span>
+        <span class="m-pill">时间线</span>
+        <span class="m-pill">联系方式</span>
+      </div>
+      <p class="desc" style="margin-top:1.5rem;opacity:0.7;font-size:0.92rem;">不要一次让AI写完整个网站。分块做，质量高得多，改起来也不崩。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TIP 6+7: 组装+上线 — 卡片网格 ====== -->
+<section class="section-final">
+  <div class="container">
+    <div class="final-header reveal">
+      <span class="section-num">06–07</span>
+      <h2>组装 + 上线</h2>
+    </div>
+    <div class="final-grid">
+      <div class="final-card reveal reveal-d1">
+        <span class="card-emoji">🧩</span>
+        <h3>组装 + 调细节</h3>
+        <p>把所有模块拼在一起，调间距、调颜色、调动画。别忘了手机端看一下是否正常。</p>
+        <span class="card-tag">POLISH</span>
+      </div>
+      <div class="final-card reveal reveal-d2">
+        <span class="card-emoji">🚀</span>
+        <h3>Cola一键部署</h3>
+        <p>直接跟Cola说"帮我部署上线"，自动生成可分享的在线链接。不需要任何配置。</p>
+        <span class="card-tag">RECOMMENDED</span>
+      </div>
+      <div class="final-card reveal reveal-d3">
+        <span class="card-emoji">🐙</span>
+        <h3>GitHub Pages（免费）</h3>
+        <p>新建仓库 → 上传HTML → Settings → Pages → Save。等1分钟就上线了。完全免费。</p>
+        <span class="card-tag">FREE_HOSTING</span>
+      </div>
+      <div class="final-card reveal reveal-d4">
+        <span class="card-emoji">🎉</span>
+        <h3>分享给全世界</h3>
+        <p>你的个人网站上线了。发朋友圈、放简历里、贴在社交媒体bio上。</p>
+        <span class="card-tag">DONE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <p class="summary reveal">找灵感 → 定结构 → 填内容 → 定风格 → 分块搓 → 拼起来 → 上线</p>
+    <p class="footer-note reveal reveal-d1">不需要学编程，不需要买域名服务器，一个人 + 一个AI就够了。</p>
+    <div class="brand reveal reveal-d2">
+      <img src="avatar.png" alt="ColaOS">
+      <span>ColaOS · 首个有灵魂的操作系统</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding个人网站 · 图文卡片</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #e8e4de; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; font-family: 'Noto Sans SC', sans-serif; }
+.export-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 999; background: white; padding: 12px 24px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+.export-bar button { background: #F1752D; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; }
+.export-bar button:hover { background: #D45A1A; }
+body { padding-top: 70px; }
+
+.card {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  overflow: hidden;
+  transform: scale(0.45);
+  transform-origin: top center;
+  margin-bottom: -792px;
+  flex-shrink: 0;
+}
+
+:root {
+  --orange: #F1752D;
+  --orange-deep: #D45A1A;
+  --orange-light: #FFE0CC;
+  --cream: #FFF8F0;
+  --cream-dark: #faf6eb;
+  --ink: #1A1A2E;
+  --ink-light: #4A4A5A;
+  --ink-faint: #8A8A9A;
+}
+</style>
+</head>
+<body>
+
+<div class="export-bar">
+  <button onclick="exportAll()">📥 一键导出全部PNG</button>
+</div>
+
+<!-- ====== P1 封面 ====== -->
+<div class="card" style="background: var(--cream); border: 28px solid var(--orange); background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 40px 40px;">
+  <div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:100px 72px 80px;text-align:center;">
+    <div style="font-family:'Fira Code',monospace;font-size:26px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Vibe Coding · Tutorial</div>
+    <div>
+      <h1 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:82px;line-height:1.35;color:var(--ink);">从0到1<br>用AI对话 <span style="background:var(--orange-deep);color:white;padding:4px 20px;border-radius:8px;">搓出</span><br>你的个人网站</h1>
+      <div style="font-size:42px;color:var(--ink-light);margin-top:36px;">7步搞定 · 全程不写一行代码</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <img src="avatar.png" style="width:88px;height:88px;border-radius:50%;" alt="Cola">
+      <div style="font-size:36px;font-weight:700;">ColaOS</div>
+      <div style="font-size:28px;color:var(--ink-faint);">首个有灵魂的操作系统</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== P2 Tip1上:找灵感 ====== -->
+<div class="card" style="background:var(--cream);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:'Fraunces',serif;font-size:180px;font-weight:900;color:var(--orange);opacity:0.1;position:absolute;top:40px;right:60px;line-height:1;">01</div>
+    <div style="font-family:'Fira Code',monospace;font-size:26px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Tip 01</div>
+    <h2 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:72px;line-height:1.3;margin-bottom:48px;">参考网站<br>从哪里来?</h2>
+    <div style="display:flex;flex-direction:column;gap:28px;">
+      <div style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="font-size:48px;">🤖</span>
+        <div><div style="font-size:40px;font-weight:700;">直接让AI帮你找</div><div style="font-size:34px;color:var(--ink-light);margin-top:8px;">"帮我找5个好看的个人网站,告诉我它们好在哪"</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="font-size:48px;">🌐</span>
+        <div><div style="font-size:40px;font-weight:700;">去灵感网站自己翻</div><div style="font-size:34px;color:var(--ink-light);margin-top:8px;">Godly / Awwwards / SiteInspire...</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="font-size:48px;">🐙</span>
+        <div><div style="font-size:40px;font-weight:700;">GitHub上搜关键词</div><div style="font-size:34px;color:var(--ink-light);margin-top:8px;">personal website / portfolio template</div></div>
+      </div>
+    </div>
+    <div style="margin-top:56px;background:rgba(241,117,45,0.08);padding:28px 32px;border-radius:16px;font-size:36px;color:var(--ink);line-height:1.6;"><strong style="color:var(--orange);">做任何东西之前先看好的案例,</strong>别上来就搓。</div>
+  </div>
+</div>
+
+<!-- ====== P3 Tip1下:灵感网站清单 ====== -->
+<div class="card" style="background:var(--cream-dark);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:'Fira Code',monospace;font-size:26px;color:var(--ink-faint);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">灵感网站清单</div>
+    <h2 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:56px;margin-bottom:12px;">去这些地方找灵感 👇</h2>
+    <div style="font-size:28px;color:var(--ink-faint);margin-bottom:40px;">* 仅作推荐,可自行探索更多</div>
+    <div style="display:flex;flex-direction:column;gap:0;">
+      <div style="display:flex;align-items:center;padding:28px 32px;background:white;border-radius:14px 14px 0 0;gap:20px;">
+        <div style="font-size:38px;font-weight:700;color:var(--orange);min-width:220px;">Godly</div>
+        <div style="font-size:32px;color:var(--ink-light);">审美门槛最高,全是动效+创意滚动</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:28px 32px;background:var(--cream-dark);gap:20px;">
+        <div style="font-size:38px;font-weight:700;color:var(--orange);min-width:220px;">Awwwards</div>
+        <div style="font-size:32px;color:var(--ink-light);">网页设计界的奥斯卡,有评分</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:28px 32px;background:white;gap:20px;">
+        <div style="font-size:38px;font-weight:700;color:var(--orange);min-width:220px;">SiteInspire</div>
+        <div style="font-size:32px;color:var(--ink-light);">按风格/类型筛选,快速锁定感觉</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:28px 32px;background:var(--cream-dark);gap:20px;">
+        <div style="font-size:38px;font-weight:700;color:var(--orange);min-width:220px;">Httpster</div>
+        <div style="font-size:32px;color:var(--ink-light);">新鲜、当下感强,看最潮趋势</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:28px 32px;background:white;gap:20px;">
+        <div style="font-size:38px;font-weight:700;color:var(--orange);min-width:220px;">Site of Sites</div>
+        <div style="font-size:32px;color:var(--ink-light);">按"氛围感"分类(极简/网格/字体流)</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:28px 32px;background:var(--cream-dark);border-radius:0 0 14px 14px;gap:20px;">
+        <div style="font-size:38px;font-weight:700;color:var(--orange);min-width:220px;">Typewolf</div>
+        <div style="font-size:32px;color:var(--ink-light);">专看字体搭配,找排版灵感</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== P4 Tip2:定结构 ====== -->
+<div class="card" style="background:var(--cream);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:'Fraunces',serif;font-size:180px;font-weight:900;color:var(--orange);opacity:0.1;position:absolute;top:40px;right:60px;line-height:1;">02</div>
+    <div style="font-family:'Fira Code',monospace;font-size:26px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Tip 02</div>
+    <h2 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:68px;line-height:1.3;margin-bottom:40px;">让AI告诉你<br>网站有哪些部分</h2>
+    <div style="font-size:38px;color:var(--ink-light);margin-bottom:40px;line-height:1.7;">"一个个人网站通常有哪些模块?"</div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:48px;">
+      <span style="background:white;border-radius:10px;padding:18px 28px;font-size:34px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.04);">🎯 Hero区</span>
+      <span style="background:white;border-radius:10px;padding:18px 28px;font-size:34px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.04);">👤 关于我</span>
+      <span style="background:white;border-radius:10px;padding:18px 28px;font-size:34px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.04);">💼 作品集</span>
+      <span style="background:white;border-radius:10px;padding:18px 28px;font-size:34px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.04);">📅 时间线</span>
+      <span style="background:white;border-radius:10px;padding:18px 28px;font-size:34px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.04);">📬 联系方式</span>
+    </div>
+    <div style="font-size:36px;color:var(--ink-light);line-height:1.7;">你来选要哪些、不要哪些,定下结构。</div>
+    <div style="margin-top:40px;background:rgba(241,117,45,0.08);padding:28px 32px;border-radius:16px;font-size:38px;font-weight:700;color:var(--orange);">先定骨架再填肉,不要一口气全丢给AI。</div>
+  </div>
+</div>
+
+<!-- ====== P5 Tip3:填内容 ====== -->
+<div class="card" style="background:var(--cream-dark);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:'Fraunces',serif;font-size:180px;font-weight:900;color:var(--orange);opacity:0.1;position:absolute;top:40px;right:60px;line-height:1;">03</div>
+    <div style="font-family:'Fira Code',monospace;font-size:26px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Tip 03</div>
+    <h2 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:68px;line-height:1.3;margin-bottom:40px;">确定每个<br>模块的内容</h2>
+    <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:48px;">
+      <div style="font-size:36px;color:var(--ink-light);line-height:1.7;">逐个模块对齐:</div>
+      <div style="font-size:38px;color:var(--ink);line-height:1.7;padding-left:24px;border-left:4px solid var(--orange);">"关于我这块写什么?"<br>"作品集放哪些?"<br>"经历怎么排序?"</div>
+    </div>
+    <div style="font-size:36px;color:var(--ink-light);line-height:1.7;margin-bottom:36px;">把你的真实信息填进去--<br><strong style="color:var(--ink);">你喂给AI的信息越多,出来的东西越像你。</strong></div>
+    <div style="background:var(--orange);color:white;padding:32px 36px;border-radius:16px;font-size:36px;line-height:1.6;">❗ <strong>这是最花时间也最值得花时间的一步。</strong><br>每个模块对应你的一部分能力和经验,内容才是让人记住你的东西。</div>
+  </div>
+</div>
+
+<!-- ====== P6 Tip4:定风格 ====== -->
+<div class="card" style="background:var(--cream);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:'Fraunces',serif;font-size:180px;font-weight:900;color:var(--orange);opacity:0.1;position:absolute;top:40px;right:60px;line-height:1;">04</div>
+    <div style="font-family:'Fira Code',monospace;font-size:26px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Tip 04</div>
+    <h2 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:68px;line-height:1.3;margin-bottom:48px;">让Cola学习<br>你的视觉风格</h2>
+    <div style="display:flex;flex-direction:column;gap:28px;margin-bottom:48px;">
+      <div style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="font-size:42px;">🎨</span>
+        <div style="font-size:36px;color:var(--ink);line-height:1.7;">丢你已有的网站/品牌色/喜欢的风格给它看</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:20px;">
+        <span style="font-size:42px;">📎</span>
+        <div style="font-size:36px;color:var(--ink);line-height:1.7;">"参考这个网站的配色和排版风格"</div>
+      </div>
+    </div>
+    <div style="background:rgba(241,117,45,0.08);padding:32px 36px;border-radius:16px;font-size:40px;font-weight:700;color:var(--orange);margin-bottom:40px;">给参考比描述风格有效 10 倍</div>
+    <div style="background:white;padding:28px 32px;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,0.04);">
+      <div style="font-size:34px;color:var(--ink);line-height:1.7;"><strong style="color:var(--orange);">Cola会记住你的品牌色和审美偏好,</strong>后续所有设计自动对齐,不用每次重复说。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== P7 Tip5:分模块搓 ====== -->
+<div class="card" style="background:var(--orange);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;color:white;position:relative;">
+    <div style="font-family:'Fraunces',serif;font-size:200px;font-weight:900;opacity:0.08;position:absolute;top:30px;right:50px;line-height:1;">05</div>
+    <div style="font-family:'Fira Code',monospace;font-size:26px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.6;margin-bottom:32px;">Tip 05 · 核心方法</div>
+    <h2 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:76px;line-height:1.25;margin-bottom:48px;">分模块搓<br>每次只做<br>一个部分</h2>
+    <div style="font-size:38px;line-height:1.8;opacity:0.9;margin-bottom:40px;">先做Hero区 → 让AI出5个方案<br>→ 你选一个 → 优化<br>→ 再做下一个模块</div>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:48px;">
+      <span style="background:rgba(255,255,255,0.15);border-radius:8px;padding:14px 22px;font-size:32px;backdrop-filter:blur(4px);">Hero区</span>
+      <span style="background:rgba(255,255,255,0.15);border-radius:8px;padding:14px 22px;font-size:32px;">关于我</span>
+      <span style="background:rgba(255,255,255,0.15);border-radius:8px;padding:14px 22px;font-size:32px;">作品集</span>
+      <span style="background:rgba(255,255,255,0.15);border-radius:8px;padding:14px 22px;font-size:32px;">时间线</span>
+      <span style="background:rgba(255,255,255,0.15);border-radius:8px;padding:14px 22px;font-size:32px;">联系方式</span>
+    </div>
+    <div style="font-size:36px;opacity:0.75;line-height:1.6;">不要一次让Cola写完整个网站。<br><strong style="opacity:1;">分块做,质量高得多,改起来也不崩。</strong></div>
+  </div>
+</div>
+
+<!-- ====== P8 Tip6+7:组装+上线 ====== -->
+<div class="card" style="background:var(--cream-dark);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:'Fraunces',serif;font-size:140px;font-weight:900;color:var(--orange);opacity:0.1;position:absolute;top:40px;right:50px;line-height:1;">06<br>07</div>
+    <div style="font-family:'Fira Code',monospace;font-size:26px;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Tip 06-07</div>
+    <h2 style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:68px;line-height:1.3;margin-bottom:56px;">组装 + 上线</h2>
+    <div style="display:flex;flex-direction:column;gap:32px;">
+      <div style="background:white;border-radius:16px;padding:36px;box-shadow:0 2px 12px rgba(0,0,0,0.04);">
+        <div style="font-size:42px;margin-bottom:12px;">🧩</div>
+        <div style="font-size:40px;font-weight:700;margin-bottom:10px;">组装 + 调细节</div>
+        <div style="font-size:34px;color:var(--ink-light);line-height:1.6;">所有模块拼一起 → 调间距/颜色/动画 → 手机端检查</div>
+      </div>
+      <div style="background:white;border-radius:16px;padding:36px;box-shadow:0 2px 12px rgba(0,0,0,0.04);">
+        <div style="font-size:42px;margin-bottom:12px;">🚀</div>
+        <div style="font-size:40px;font-weight:700;margin-bottom:10px;">部署上线</div>
+        <div style="font-size:34px;color:var(--ink-light);line-height:1.6;"><strong style="color:var(--orange);">Cola部署：</strong>说“帮我部署上线”→ Cola会引导你通过GitHub Pages完成部署</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== P9 尾页 ====== -->
+<div class="card" style="background:var(--cream);">
+  <div style="width:100%;height:100%;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;">
+    <div style="font-family:'Fraunces',serif;font-size:200px;color:var(--orange);opacity:0.12;position:absolute;top:120px;left:80px;line-height:1;">"</div>
+    <div style="font-family:'Fraunces',serif;font-size:200px;color:var(--orange);opacity:0.12;position:absolute;bottom:200px;right:80px;line-height:1;">"</div>
+    <div style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:64px;line-height:1.4;max-width:800px;margin-bottom:80px;position:relative;z-index:2;">一个人 + 一个AI<br>从0到1<br>7步上线</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <img src="avatar.png" style="width:88px;height:88px;border-radius:50%;" alt="Cola">
+      <div style="font-size:40px;font-weight:700;">ColaOS</div>
+      <div style="font-size:28px;color:var(--ink-faint);">首个有灵魂的操作系统</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+async function exportAll() {
+  const btn = document.querySelector('.export-bar button');
+  btn.textContent = '导出中...';
+  btn.disabled = true;
+  await document.fonts.ready;
+  const cards = document.querySelectorAll('.card');
+  const zip = new JSZip();
+  for (let i = 0; i < cards.length; i++) {
+    const card = cards[i];
+    const origTransform = card.style.transform;
+    const origMargin = card.style.marginBottom;
+    card.style.transform = 'none';
+    card.style.marginBottom = '0';
+    await new Promise(r => setTimeout(r, 100));
+    const canvas = await html2canvas(card, {
+      width: 1080,
+      height: 1440,
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#FFF8F0',
+      logging: false
+    });
+    card.style.transform = origTransform || 'scale(0.45)';
+    card.style.transformOrigin = 'top center';
+    card.style.marginBottom = origMargin || '-792px';
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+    zip.file(`card-${String(i+1).padStart(2,'0')}.png`, blob);
+  }
+  const content = await zip.generateAsync({ type: 'blob' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(content);
+  a.download = 'vibe-coding-cards.zip';
+  a.click();
+  btn.textContent = '📥 一键导出全部PNG';
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>

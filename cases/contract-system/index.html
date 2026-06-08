@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不到300块,用AI搭了个合同管理系统</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #F1752D;
+      --orange-deep: #D45A1A;
+      --orange-light: #FFE0CC;
+      --dark: #1A1A2E;
+      --cream: #FFF8F0;
+      --cream-dark: #faf6eb;
+      --ink: #1A1A2E;
+      --ink-light: #4A4A5A;
+      --ink-faint: #8A8A9A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink);
+      background: var(--cream);
+    }
+
+    ::selection {
+      background: #FFE0CC;
+      color: #1a1a1a;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ====== HERO - Layout #1: 双栏不对称 ====== */
+    .hero-split {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 64px;
+      padding: 6rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-split::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse, rgba(241,117,45,0.06), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-split .label-caps {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+    .hero-split h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.25;
+      color: var(--ink);
+    }
+    .hero-split h1 .highlight { color: var(--orange); }
+    .hero-split .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--ink-light);
+      margin-top: 1.5rem;
+      line-height: 1.9;
+      max-width: 480px;
+    }
+    .hero-split .hero-tag {
+      display: inline-block;
+      margin-top: 2rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: var(--orange);
+      font-weight: 700;
+    }
+    .hero-split .visual-side { display: flex; flex-direction: column; gap: 20px; }
+    .hero-split .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .hero-split .stat-card .stat-label { font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 8px; }
+    .hero-split .stat-card .stat-value { font-family: 'Fraunces', serif; font-size: 2.4rem; font-weight: 900; color: var(--orange); }
+    .hero-split .stat-card .stat-note { font-size: 0.78rem; color: var(--ink-light); margin-top: 4px; }
+    .hero-split .stat-card:nth-child(2) .stat-value { color: var(--ink); font-size: 1.6rem; }
+
+    /* ====== SECTION 1 - Layout #13: 分栏对称 Pain展示 ====== */
+    .split-section {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .split-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: clamp(40px, 6vw, 100px);
+    }
+
+    .split-left .section-number {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: clamp(4rem, 8vw, 7rem);
+      color: var(--orange);
+      opacity: 0.15;
+      line-height: 0.85;
+      display: block;
+    }
+
+    .split-left h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-top: 1rem;
+      line-height: 1.3;
+    }
+
+    .split-left .split-desc {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      margin-top: 1.5rem;
+      max-width: 360px;
+    }
+
+    .split-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(40px, 6vw, 80px);
+      background: var(--cream-dark);
+    }
+
+    .pain-list { display: flex; flex-direction: column; gap: 0; }
+    .pain-item { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 28px; }
+    .pain-item:last-child { margin-bottom: 0; }
+    .pain-item .pain-emoji { font-size: 2.2rem; flex-shrink: 0; margin-top: 2px; }
+    .pain-item .pain-title { font-size: 1rem; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+    .pain-item .pain-text { font-size: 0.88rem; color: var(--ink-light); line-height: 1.7; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ====== SECTION 2 - Layout #3: 三等分卡片网格 ====== */
+    .section-features {
+      padding: clamp(80px, 12vh, 160px) 0;
+    }
+
+    .section-features .section-header {
+      margin-bottom: clamp(40px, 6vw, 80px);
+    }
+
+    .section-features .section-num-deco {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--orange);
+      opacity: 0.3;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .section-features .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(16px, 2vw, 20px);
+    }
+
+    .feat-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .feat-card:hover { background: var(--orange); transform: translateY(-4px); }
+    .feat-card .feat-num {
+      font-family: 'Fraunces', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(241,117,45,0.12);
+      line-height: 1;
+      margin-bottom: 12px;
+      transition: color 0.3s;
+    }
+    .feat-card:hover .feat-num { color: rgba(255,255,255,0.15); }
+    .feat-card .feat-emoji { font-size: 2rem; margin-bottom: 8px; transition: transform 0.3s; }
+    .feat-card:hover .feat-emoji { transform: scale(1.3); }
+    .feat-card .feat-title { font-size: 0.95rem; font-weight: 700; transition: color 0.3s; }
+    .feat-card:hover .feat-title { color: white; }
+    .feat-card .feat-desc {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      margin-top: 8px;
+      line-height: 1.5;
+      opacity: 0;
+      max-height: 0;
+      transition: opacity 0.3s, max-height 0.3s, color 0.3s;
+    }
+    .feat-card:hover .feat-desc { opacity: 1; max-height: 80px; color: rgba(255,255,255,0.85); }
+
+    /* ====== SECTION 3 - Layout #4: 纵向Step流程线 ====== */
+    .section-steps {
+      padding: clamp(80px, 12vh, 160px) 0;
+      background: var(--cream);
+    }
+
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(40px, 5vw, 64px);
+      padding-left: 70px;
+      position: relative;
+      max-width: 800px;
+    }
+
+    .steps-container::before {
+      content: '';
+      position: absolute;
+      left: 22px;
+      top: 50px;
+      bottom: 50px;
+      width: 2px;
+      border-left: 2px dashed var(--orange);
+      opacity: 0.3;
+    }
+
+    .step-item {
+      position: relative;
+    }
+
+    .step-num {
+      position: absolute;
+      left: -70px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 16px rgba(241,117,45,0.3);
+    }
+
+    .step-content h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-content p {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .step-content .step-detail {
+      margin-top: 12px;
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    /* ====== SECTION 4 - Layout #6: 全宽深色面板 ====== */
+    .pits-section {
+      background: var(--cream);
+      padding: clamp(80px, 12vh, 160px) 0;
+      position: relative;
+    }
+
+    .pits-section .section-header {
+      margin-bottom: clamp(40px, 6vw, 64px);
+    }
+
+    .pits-section .section-num-deco {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--orange);
+      opacity: 0.3;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .pits-section .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      color: var(--ink);
+    }
+
+    .pits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 900px;
+    }
+
+    .pit-card {
+      background: white;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .pit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 24px rgba(241,117,45,0.08);
+    }
+
+    .pit-card .warn-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FDECEA;
+      border-radius: 6px;
+      padding: 5px 12px;
+      margin-bottom: 12px;
+    }
+    .pit-card .warn-bar .warn-icon { font-size: 0.9rem; }
+    .pit-card .warn-bar .lesson-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      color: #E53E3E;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pit-card .pit-title {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .pit-card .pit-desc {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
+
+    /* ====== SECTION 5 - Layout #11: 全宽品牌色面板 ====== */
+    .section-cost {
+      background: var(--orange);
+      color: #fff;
+      padding: clamp(80px, 12vh, 140px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-cost::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 60%);
+      pointer-events: none;
+    }
+
+    .cost-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 100px);
+      align-items: center;
+    }
+
+    .cost-left .cost-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.7;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .cost-left h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.3;
+    }
+
+    .cost-left .cost-desc {
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
+      opacity: 0.85;
+      line-height: 1.8;
+    }
+
+    .cost-right {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .cost-card {
+      background: rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 24px 28px;
+      backdrop-filter: blur(4px);
+    }
+
+    .cost-card .cost-card-label {
+      font-size: 0.8rem;
+      opacity: 0.75;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .cost-card .cost-card-amount {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .cost-card .cost-card-note {
+      font-size: 0.78rem;
+      opacity: 0.6;
+      margin-top: 6px;
+    }
+
+    .cost-card--expensive {
+      background: rgba(0,0,0,0.2);
+      text-decoration-color: rgba(255,255,255,0.4);
+    }
+
+    .cost-card--expensive .cost-card-amount {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+
+    .cost-vs {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-align: center;
+      opacity: 0.9;
+    }
+
+    /* ====== FOOTER ====== */
+    .footer {
+      padding: clamp(60px, 8vh, 100px) 0;
+      text-align: center;
+    }
+
+    .footer-by {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .footer-sub {
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      margin-top: 0.75rem;
+    }
+
+    .footer-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--orange);
+      margin: 0 auto 1.5rem;
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    /* ====== Scroll Reveal ====== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ====== 响应式 ====== */
+    @media (max-width: 900px) {
+      .split-section {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .split-left {
+        padding: clamp(40px, 6vw, 60px) 2rem;
+      }
+      .split-right {
+        padding: clamp(40px, 6vw, 60px) 2rem;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .steps-container {
+        padding-left: 60px;
+      }
+      .cost-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 15px; }
+      .hero-card { padding: 2rem 1.5rem; }
+      .hero-card h1 { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+      .steps-container { padding-left: 50px; }
+      .step-num { left: -50px; width: 36px; height: 36px; font-size: 0.9rem; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .feat-card .feat-num { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== HERO - Layout #1: 双栏不对称 ====== -->
+  <section class="hero-split">
+    <div class="reveal">
+      <span class="label-caps">AI × 贸易管理 · Case Study</span>
+      <h1>不到<span class="highlight">300块</span>,<br>用AI搭了个<br>合同管理系统</h1>
+      <p class="hero-subtitle">做贸易分销的普通人,用AI对话搭出一套完整的合同+订单管理工具。没写一行代码,没请一个开发。</p>
+      <span class="hero-tag">-- 一个真实的搭建故事 ✦</span>
+    </div>
+    <div class="visual-side">
+      <div class="stat-card reveal">
+        <div class="stat-label">出合同时间</div>
+        <div class="stat-value">30min → 3min</div>
+        <div class="stat-note">效率提升 10x</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">实际花费</div>
+        <div class="stat-value">¥200多 vs 找人开发 ¥30,000+</div>
+        <div class="stat-note">成本降低 99%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 1 - Layout #13: 分栏对称 Pain展示 ====== -->
+  <section class="split-section">
+    <div class="split-left reveal">
+      <span class="section-number">01</span>
+      <h2>为什么<br>要做这个</h2>
+      <p class="split-desc">做贸易分销日常就是进货、卖货、出合同、对账。合同在Word里改,订单在Excel里记。直到有一天--</p>
+    </div>
+    <div class="split-right">
+      <div class="pain-list">
+        <div class="pain-item reveal reveal-d1">
+          <span class="pain-emoji">😱</span>
+          <div><div class="pain-title">发错合同</div><div class="pain-text">复制粘贴把客户名搞错了,发出去才发现。靠人肉迟早出事。</div></div>
+        </div>
+        <div class="pain-item reveal reveal-d2">
+          <span class="pain-emoji">💸</span>
+          <div><div class="pain-title">买系统太贵</div><div class="pain-text">金蝶用友年费上万,请人开发三五万起。小生意用不起。</div></div>
+        </div>
+        <div class="pain-item reveal reveal-d3">
+          <span class="pain-emoji">⏰</span>
+          <div><div class="pain-title">重复劳动太多</div><div class="pain-text">出一份合同改Word要20-30分钟,月底对账翻半天。</div></div>
+        </div>
+        <div class="pain-item reveal reveal-d4">
+          <span class="pain-emoji">🤔</span>
+          <div><div class="pain-title">想到了AI</div><div class="pain-text">天天在用AI聊天,能不能让它帮我搭一个工具出来?</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 2 - Layout #3: 三等分卡片网格 ====== -->
+  <section class="section-features">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num-deco">02</span>
+        <h2 class="section-title">最终做出来的东西</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feat-card reveal reveal-d1">
+          <span class="feat-num">01</span>
+          <span class="feat-emoji">📄</span>
+          <div class="feat-title">出货合同</div>
+          <p class="feat-desc">选客户→自动填信息→选产品→自动算含税价→一键导出PDF</p>
+        </div>
+        <div class="feat-card reveal reveal-d2">
+          <span class="feat-num">02</span>
+          <span class="feat-emoji">📦</span>
+          <div class="feat-title">采购进货</div>
+          <p class="feat-desc">选供应商→自动填对接人→保存记录→关联出货合同</p>
+        </div>
+        <div class="feat-card reveal reveal-d3">
+          <span class="feat-num">03</span>
+          <span class="feat-emoji">📊</span>
+          <div class="feat-title">订单记录</div>
+          <p class="feat-desc">全部汇总、利润实时看、勾选加总、一键导出Excel</p>
+        </div>
+        <div class="feat-card reveal reveal-d1">
+          <span class="feat-num">04</span>
+          <span class="feat-emoji">🏭</span>
+          <div class="feat-title">供应商产品库</div>
+          <p class="feat-desc">直接在表格里维护信息,改了全局联动,不用到处改</p>
+        </div>
+        <div class="feat-card reveal reveal-d2">
+          <span class="feat-num">05</span>
+          <span class="feat-emoji">🔗</span>
+          <div class="feat-title">关联功能</div>
+          <p class="feat-desc">采购和出货互相对应,进了什么货、卖给了谁一目了然</p>
+        </div>
+        <div class="feat-card reveal reveal-d3">
+          <span class="feat-num">06</span>
+          <span class="feat-emoji">⚡</span>
+          <div class="feat-title">效率对比</div>
+          <p class="feat-desc">出合同从30分钟→3分钟,月底对账从半天→1分钟</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 3 - Layout #4: 纵向Step流程线 ====== -->
+  <section class="section-steps">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num-deco" style="color:var(--orange);opacity:.3;font-family:'Fraunces',serif;font-style:italic;font-size:clamp(1.4rem,3vw,2rem);display:block;margin-bottom:.25rem;">03</span>
+        <h2 class="section-title" style="font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(1.4rem,3vw,2.2rem);">怎么做到的</h2>
+      </div>
+      <div class="steps-container">
+        <div class="step-item reveal reveal-d1">
+          <span class="step-num">1</span>
+          <div class="step-content">
+            <h3>把文件给AI</h3>
+            <p>把正在用的Word合同模板和Excel订单统计表直接发给AI,让它理解我的业务流程和数据结构。</p>
+            <span class="step-detail">↳ 给原始文件,别给截图!</span>
+          </div>
+        </div>
+        <div class="step-item reveal reveal-d2">
+          <span class="step-num">2</span>
+          <div class="step-content">
+            <h3>拿到第一版</h3>
+            <p>大概一个小时,第一版就跑通了。能选客户、填产品、自动算含税价、生成PDF。粗糙,但核心流程通了。</p>
+            <span class="step-detail">↳ 先有个能用的,比什么都重要</span>
+          </div>
+        </div>
+        <div class="step-item reveal reveal-d3">
+          <span class="step-num">3</span>
+          <div class="step-content">
+            <h3>小步迭代</h3>
+            <p>在实际使用中一条一条提需求--"利润要自动算"、"表头按截图改"、"加个管理模块"。打字、语音、截图,三种方式混着用。</p>
+            <span class="step-detail">↳ 截图 + 具体描述效率最高</span>
+          </div>
+        </div>
+        <div class="step-item reveal reveal-d4">
+          <span class="step-num">4</span>
+          <div class="step-content">
+            <h3>推倒重来也不怕</h3>
+            <p>加到一定程度代码会臃肿,改一个地方另一个地方就坏。果断砍掉花哨功能、只保留核心,从头重写--反而更快更稳。</p>
+            <span class="step-detail">↳ 每一版都存个新文件,随时能退</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 4 - Layout #6: 全宽深色面板 ====== -->
+  <section class="pits-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-num-deco">04</span>
+        <h2 class="section-title">踩过的坑</h2>
+      </div>
+      <div class="pits-grid">
+        <div class="pit-card reveal reveal-d1">
+          <div class="warn-bar"><span class="warn-icon">⚠️</span><span class="lesson-tag">Lesson #1</span></div>
+          <div class="pit-title">不要一直往上加功能</div>
+          <div class="pit-desc">加到一定程度会全崩。功能越多代码越臃肿，改一个地方另一个地方就坏。要敢砍、敢重写。</div>
+        </div>
+        <div class="pit-card reveal reveal-d2">
+          <div class="warn-bar"><span class="warn-icon">⚠️</span><span class="lesson-tag">Lesson #2</span></div>
+          <div class="pit-title">一定要做版本管理</div>
+          <div class="pit-desc">每出一版存一个新文件（v1、v2、v3……），新版有bug随时能退回去。有经验的话可以用GitHub。</div>
+        </div>
+        <div class="pit-card reveal reveal-d3">
+          <div class="warn-bar"><span class="warn-icon">⚠️</span><span class="lesson-tag">Lesson #3</span></div>
+          <div class="pit-title">给AI原始文件，别给截图</div>
+          <div class="pit-desc">截图识别表格数据精度很差。直接发Excel原文件，一次性精准导入了两年70条历史订单。</div>
+        </div>
+        <div class="pit-card reveal reveal-d4">
+          <div class="warn-bar"><span class="warn-icon">⚠️</span><span class="lesson-tag">Lesson #4</span></div>
+          <div class="pit-title">需求说得越具体，效率越高</div>
+          <div class="pit-desc">“改好看点”AI不知道怎么改。“这列表头改成xxx，数据前面加RMB”——一次就对。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 5 - Layout #11: 全宽品牌色面板 ====== -->
+  <section class="section-cost">
+    <div class="container">
+      <div class="cost-layout">
+        <div class="cost-left reveal">
+          <span class="cost-label">The Cost</span>
+          <h2>花了多少钱?</h2>
+          <p class="cost-desc">Cola订阅 $99/月,这个项目是其中一部分消耗。AI对话成本大约 ¥30-50。没花一分钱买软件,没请一个开发。</p>
+        </div>
+        <div class="cost-right">
+          <div class="cost-card reveal reveal-d1">
+            <span class="cost-card-label">我的实际花费</span>
+            <span class="cost-card-amount">¥200多</span>
+            <span class="cost-card-note">≈ $30-50 · AI对话 + 迭代调试</span>
+          </div>
+          <div class="cost-vs reveal reveal-d2">vs.</div>
+          <div class="cost-card cost-card--expensive reveal reveal-d3">
+            <span class="cost-card-label">找人开发同样的系统</span>
+            <span class="cost-card-amount">¥30,000+</span>
+            <span class="cost-card-note">还不包含后续维护和修改</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-divider"></div>
+      <p class="footer-by">by Sisi</p>
+      <p class="footer-sub">Made with Cola · 2026</p>
+    </div>
+  </footer>
+
+  <!-- ====== Scroll Reveal JS ====== -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
