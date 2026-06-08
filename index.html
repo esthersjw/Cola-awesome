@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awesome Cola Cases</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #F1752D;
+  --orange-deep: #D45A1A;
+  --orange-light: #FFE0CC;
+  --dark: #1A1A2E;
+  --cream: #fefcf6;
+  --cream-dark: #faf6eb;
+  --ink: #1A1A2E;
+  --ink-light: #4A4A5A;
+  --ink-faint: #8A8A9A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+::selection { background: rgba(241,117,45,0.2); color: var(--ink); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+/* ====== HERO ====== */
+.hero {
+  padding: clamp(100px, 15vh, 180px) 0 clamp(60px, 8vh, 100px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: 'CASES';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fraunces', serif;
+  font-size: clamp(10rem, 22vw, 18rem);
+  font-weight: 900;
+  color: var(--orange);
+  opacity: 0.04;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero .brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+.hero .brand img { height: 36px; border-radius: 50%; }
+.hero .brand span { font-family: 'Fira Code', monospace; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--ink-faint); text-transform: uppercase; }
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1.25;
+  position: relative;
+  z-index: 2;
+}
+.hero h1 .hl { color: var(--orange); }
+.hero .subtitle {
+  font-size: 1.05rem;
+  color: var(--ink-light);
+  margin-top: 1.2rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.8;
+}
+.hero .stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 2.5rem;
+}
+.hero .stat-item {
+  text-align: center;
+}
+.hero .stat-item .stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--orange);
+}
+.hero .stat-item .stat-label {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin-top: 4px;
+}
+
+/* ====== FILTERS ====== */
+.filters {
+  padding: 0 0 clamp(40px, 5vw, 64px);
+}
+.filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.filter-btn {
+  background: white;
+  border: 1.5px solid #e8e4de;
+  border-radius: 100px;
+  padding: 8px 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: white;
+}
+
+/* ====== CASE GRID ====== */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(20px, 3vw, 32px);
+  padding-bottom: clamp(80px, 12vh, 140px);
+}
+.case-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.case-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(241,117,45,0.1);
+}
+.case-card .card-preview {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  position: relative;
+  background: var(--cream-dark);
+}
+.case-card .card-preview iframe {
+  width: 200%;
+  height: 200%;
+  border: none;
+  transform: scale(0.5);
+  transform-origin: top left;
+  pointer-events: none;
+}
+.case-card .card-preview .preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(255,248,240,0.9) 100%);
+  pointer-events: none;
+}
+.case-card .card-body {
+  padding: 24px 28px 28px;
+}
+.case-card .card-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.case-card .card-tags .tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.68rem;
+  background: var(--orange-light);
+  color: var(--orange-deep);
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.case-card .card-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.case-card .card-desc {
+  font-size: 0.88rem;
+  color: var(--ink-light);
+  line-height: 1.7;
+}
+.case-card .card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0ede8;
+}
+.case-card .card-meta .meta-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--orange-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--orange-deep);
+}
+.case-card .card-meta .meta-info {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+.case-card .card-meta .meta-info strong {
+  color: var(--ink-light);
+  font-weight: 600;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  padding: 48px 0;
+  text-align: center;
+  border-top: 1px solid #f0ede8;
+}
+.footer .footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.footer .footer-brand img { height: 28px; border-radius: 50%; }
+.footer .footer-brand span { font-size: 0.85rem; font-weight: 600; }
+.footer .footer-note { font-size: 0.78rem; color: var(--ink-faint); }
+
+/* ====== Scroll Reveal ====== */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+
+/* ====== Responsive ====== */
+@media (max-width: 900px) {
+  .cases-grid { grid-template-columns: 1fr; }
+  .case-card .card-preview { height: 220px; }
+}
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .hero .stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="container">
+    <div class="brand reveal">
+      <img src="avatar.png" alt="Cola">
+      <span>ColaOS</span>
+    </div>
+    <h1 class="reveal">Awesome <span class="hl">Cola</span> Cases</h1>
+    <p class="subtitle reveal">真实用户用Cola做出来的东西。不是demo，不是概念，是正在用的工具和正在线上跑的网站。</p>
+    <div class="stats reveal">
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Cases</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0</div>
+        <div class="stat-label">行代码</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">AI对话完成</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FILTERS ====== -->
+<section class="filters">
+  <div class="container">
+    <div class="filter-row reveal">
+      <button class="filter-btn active">全部</button>
+      <button class="filter-btn">Vibe Coding</button>
+      <button class="filter-btn">贸易管理</button>
+      <button class="filter-btn">个人品牌</button>
+      <button class="filter-btn">工具搭建</button>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CASE GRID ====== -->
+<section class="container">
+  <div class="cases-grid">
+
+    <!-- Case 1: 合同管理系统 -->
+    <a class="case-card reveal" href="../合同管理系统项目介绍.html" target="_blank">
+      <div class="card-preview">
+        <iframe src="../合同管理系统项目介绍.html" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag">贸易管理</span>
+          <span class="tag">Vibe Coding</span>
+          <span class="tag">工具搭建</span>
+        </div>
+        <h3 class="card-title">不到300块，用AI搭了个合同管理系统</h3>
+        <p class="card-desc">做贸易分销的普通人，用AI对话搭出完整的合同+订单管理工具。出合同从30分钟→3分钟，成本降低99%。</p>
+        <div class="card-meta">
+          <div class="meta-avatar">🏭</div>
+          <div class="meta-info"><strong>贸易分销用户</strong> · 效率提升10x</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Case 2: 个人网站 -->
+    <a class="case-card reveal reveal-d1" href="../vibe-coding-personal-site/index.html" target="_blank">
+      <div class="card-preview">
+        <iframe src="https://esthersjw.github.io/esther-website/" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag">个人品牌</span>
+          <span class="tag">Vibe Coding</span>
+          <span class="tag">网站部署</span>
+        </div>
+        <h3 class="card-title">从0到1，用AI对话搓出个人网站</h3>
+        <p class="card-desc">不会写代码的设计师，用Cola对话7步搓出完整个人网站。找灵感→定结构→填内容→部署上线，全程0行代码。</p>
+        <div class="card-meta">
+          <div class="meta-avatar">✨</div>
+          <div class="meta-info"><strong>ESTHER不二</strong> · 7步从0到上线</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">
+      <img src="avatar.png" alt="Cola">
+      <span>ColaOS</span>
+    </div>
+    <p class="footer-note">首个有灵魂的操作系统 · 用Cola做出你的下一个项目</p>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Filter buttons (visual only for now)
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
