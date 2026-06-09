@@ -217,12 +217,22 @@ body {
 }
 
 .front-preview iframe {
-  width: 200%;
-  height: 200%;
+  width: 300%;
+  height: 300%;
   border: none;
   pointer-events: none;
-  transform: scale(0.5);
+  transform: scale(0.333);
   transform-origin: top left;
+}
+
+.front-preview a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 .front-preview__hint {
   position: absolute;
@@ -521,9 +531,10 @@ body {
           <div class="card__face card__face--front">
             <div class="front-preview">
               <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html" loading="lazy"></iframe>
-              <span class="front-preview__hint">点击翻转查看成果 →</span>
+              <a href="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html" target="_blank"></a>
             </div>
-            <div class="bottom-section">
+            <div class="bottom-section" data-flip="case1">
+              <span style="font-size:11px; color:var(--ink-faint); margin-bottom:-4px;">点击翻转查看成果 →</span>
               <div class="bottom-left">
                 <div class="card-title">Vibe Coding 个人网页教程</div>
                 <div class="card-subtitle">用Cola的Design Skill一句话生成个人网页，从 Markdown 到上线全流程教程</div>
@@ -572,9 +583,10 @@ body {
           <div class="card__face card__face--front">
             <div class="front-preview">
               <iframe src="https://fxy2311-youyou.github.io/cola-pages/contract-system/" loading="lazy"></iframe>
-              <span class="front-preview__hint">点击翻转查看成果 →</span>
+              <a href="https://fxy2311-youyou.github.io/cola-pages/contract-system/" target="_blank"></a>
             </div>
-            <div class="bottom-section">
+            <div class="bottom-section" data-flip="case2">
+              <span style="font-size:11px; color:var(--ink-faint); margin-bottom:-4px;">点击翻转查看成果 →</span>
               <div class="bottom-left">
                 <div class="card-title">合同管理系统</div>
                 <div class="card-subtitle">用Cola一句话生成合同全生命周期管理工具，从录入到提醒全自动化</div>
@@ -690,8 +702,9 @@ document.querySelectorAll('.card').forEach(card => {
     updateRoller();
   });
 
-  // Flip
-  frontFace.addEventListener('click', (e) => {
+  // Flip - only from bottom section
+  const bottomSection = card.querySelector('.bottom-section');
+  bottomSection.addEventListener('click', (e) => {
     if (e.target.closest('.btn') || e.target.closest('.cost-roller')) return;
     card.classList.add('is-flipped');
   });
