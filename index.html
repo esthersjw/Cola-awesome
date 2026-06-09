@@ -217,10 +217,16 @@ body {
 }
 
 .front-preview iframe {
-  width: 100%;
-  height: 100%;
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+  transform-origin: top left;
+  width: 200%;
+  height: 200%;
   border: none;
   pointer-events: none;
+  transform: scale(0.5);
+  transform-origin: top left;
 }
 
 .front-preview__hint {
@@ -313,14 +319,10 @@ body {
 
 /* BACK */
 .back-wrap {
-  width: 100%;
-  height: 100%;
   position: relative;
 }
 
 .back-wrap iframe {
-  width: 100%;
-  height: 100%;
   border: none;
 }
 
