@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Card - Flip Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2B7FD8;
+      --yellow: #F4D758;
+      --red: #E84A5F;
+      --cream: #fefcf6;
+      --ink: #1A1A2E;
+      --ink-light: #4A4A5A;
+      --ink-faint: #8A8A9A;
+      --card-width: min(95vw, 1000px);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .scene {
+      width: var(--card-width);
+      perspective: 1200px;
+    }
+
+    .card {
+      width: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card__face {
+      width: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .card__face--front {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card__face--back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      transform: rotateY(180deg);
+    }
+
+    /* === FRONT: Variant 2 Style === */
+    .front-preview {
+      width: 100%;
+      height: 520px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .front-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+    }
+
+    .front-preview__hint {
+      position: absolute;
+      bottom: 12px;
+      right: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+      background: rgba(0,0,0,0.5);
+      padding: 4px 12px;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    .bottom-section {
+      display: flex;
+      padding: 24px 28px;
+      border-top: 1px solid #f0f0f0;
+      gap: 24px;
+    }
+
+    .bottom-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .title {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.5;
+    }
+
+    .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 12px;
+      font-weight: 500;
+      color: white;
+      padding: 3px 12px;
+      border-radius: 20px;
+    }
+    .pill--blue { background: #FF6B35; }
+    .pill--yellow { background: #FF8C5A; color: #fff; }
+    .pill--red { background: #FFD4C0; color: #664030; }
+
+    .meta-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--ink-light);
+    }
+
+    .bottom-right {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+      justify-content: flex-end;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 8px 20px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.1s;
+    }
+    .btn:hover { transform: scale(1.02); }
+    .btn--primary { background: #FF6B35; color: white; }
+    .btn--outline { background: transparent; border: none; color: var(--ink-faint); font-size: 12px; font-weight: 400; padding: 4px 8px; }
+
+    /* === BACK === */
+    .back-wrap {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .back-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .back-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .back-close:hover { background: rgba(0,0,0,0.8); }
+
+    /* Cost Roller */
+    .cost-roller {
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+    }
+    .cost-roller__window {
+      display: block;
+      height: 20px;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    .cost-roller__track {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cost-item {
+      height: 20px;
+      line-height: 20px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--ink);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="card" id="card">
+      <!-- FRONT -->
+      <div class="card__face card__face--front">
+        <div class="front-preview">
+          <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html" loading="lazy"></iframe>
+          <span class="front-preview__hint">点击翻转查看成果 →</span>
+        </div>
+        <div class="bottom-section">
+          <div class="bottom-left">
+            <div class="title">Vibe Coding 个人网页教程</div>
+            <div class="subtitle">用Cola的Design Skill一句话生成个人网页，从 Markdown 到上线全流程教程</div>
+            <div class="pills">
+              <span class="pill pill--blue">Design Skill</span>
+              <span class="pill pill--yellow">HTML网页</span>
+              <span class="pill pill--red">教程</span>
+            </div>
+            <div class="meta-row">
+              <span>👤 ESTHER不二</span>
+              <span>⏱ 30分钟</span>
+              <span class="cost-roller" id="costRoller">
+                <span class="cost-roller__window">
+                  <span class="cost-roller__track" id="costTrack">
+                    <span class="cost-item" style="background: #FF6B35; color: #fff;">Max $10</span>
+                    <span class="cost-item" style="background: #FF8C5A; color: #fff;">Pro $8</span>
+                    <span class="cost-item" style="background: #FFD4C0; color: #664030;">Lite $1</span>
+                  </span>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="bottom-right">
+            <button class="btn btn--primary" id="btnReplicate">一键复刻</button>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <button class="btn btn--outline" id="btnLike">❤️ <span id="likeCount">128</span></button>
+              <button class="btn btn--outline" id="btnShare">🔗 分享</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card__face card__face--back">
+        <div class="back-wrap">
+          <iframe src="https://esthersjw.github.io/esther-website/" loading="lazy"></iframe>
+          <button class="back-close" id="flipToFront" title="翻回去">↩</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const card = document.getElementById('card');
+    const frontFace = document.querySelector('.card__face--front');
+    const flipToFront = document.getElementById('flipToFront');
+    const btnReplicate = document.getElementById('btnReplicate');
+    const btnLike = document.getElementById('btnLike');
+    const btnShare = document.getElementById('btnShare');
+    const likeCount = document.getElementById('likeCount');
+    const toast = document.getElementById('toast');
+
+    // Cost roller
+    const costRoller = document.getElementById('costRoller');
+    const costTrack = document.getElementById('costTrack');
+    let costIndex = 0;
+    const costTotal = 3;
+    function updateCostRoller() {
+      costTrack.style.transform = `translateY(-${costIndex * 20}px)`;
+    }
+    costRoller.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.deltaY > 0) costIndex = (costIndex + 1) % costTotal;
+      else costIndex = (costIndex - 1 + costTotal) % costTotal;
+      updateCostRoller();
+    });
+    costRoller.addEventListener('click', (e) => {
+      e.stopPropagation();
+      costIndex = (costIndex + 1) % costTotal;
+      updateCostRoller();
+    });
+
+    // Click anywhere on front to flip (except buttons)
+    frontFace.addEventListener('click', (e) => {
+      if (e.target.closest('.btn')) return;
+      card.classList.add('is-flipped');
+    });
+    flipToFront.addEventListener('click', () => card.classList.remove('is-flipped'));
+
+    // Toast
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // Replicate
+    btnReplicate.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showToast('功能即将上线');
+    });
+
+    // Like
+    const LIKE_KEY = 'cola_case_liked';
+    let liked = localStorage.getItem(LIKE_KEY) === '1';
+    let count = 128;
+    function updateLike() {
+      count = liked ? 129 : 128;
+      likeCount.textContent = count;
+    }
+    updateLike();
+    btnLike.addEventListener('click', (e) => {
+      e.stopPropagation();
+      liked = !liked;
+      localStorage.setItem(LIKE_KEY, liked ? '1' : '0');
+      updateLike();
+    });
+
+    // Share
+    btnShare.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        showToast('链接已复制到剪贴板');
+      } catch { showToast('复制失败'); }
+    });
+  </script>
+</body>
+</html>

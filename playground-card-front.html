@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Card Front - 5 Variants</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2B7FD8;
+      --yellow: #F4D758;
+      --red: #E84A5F;
+      --cream: #fefcf6;
+      --ink: #1A1A2E;
+      --ink-light: #4A4A5A;
+      --radius: 16px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--cream);
+      font-family: 'Noto Sans SC', sans-serif;
+      padding: 60px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 100px;
+    }
+
+    .variant-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      color: var(--ink-light);
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 4px 12px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .variant-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card {
+      width: min(95vw, 1000px);
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card iframe {
+      width: 100%;
+      border: none;
+      pointer-events: none;
+      display: block;
+    }
+
+    /* Pills */
+    .pill {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: white;
+    }
+    .pill--blue { background: var(--blue); }
+    .pill--yellow { background: var(--yellow); color: var(--ink); }
+    .pill--red { background: var(--red); }
+
+    /* Buttons */
+    .btn {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 8px 20px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.1s;
+    }
+    .btn:hover { transform: scale(1.02); }
+    .btn--primary {
+      background: var(--blue);
+      color: white;
+    }
+    .btn--outline {
+      background: transparent;
+      border: 1.5px solid var(--ink-light);
+      color: var(--ink);
+    }
+    .btn--outline-white {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.7);
+      color: white;
+    }
+
+    .title {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.5;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: var(--ink-light);
+    }
+
+    /* ========== VARIANT 1: Bottom Bar ========== */
+    .v1 iframe {
+      height: 560px;
+    }
+    .v1 .bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-top: 1px solid #f0f0f0;
+      gap: 16px;
+    }
+    .v1 .bottom-bar__left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+    .v1 .bottom-bar__left .title {
+      font-size: 16px;
+      white-space: nowrap;
+    }
+    .v1 .bottom-bar__right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ========== VARIANT 2: Bottom Left-Right ========== */
+    .v2 iframe {
+      height: 520px;
+    }
+    .v2 .bottom-section {
+      display: flex;
+      padding: 24px 28px;
+      border-top: 1px solid #f0f0f0;
+      gap: 24px;
+    }
+    .v2 .bottom-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .v2 .bottom-left .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .v2 .bottom-left .meta-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .v2 .bottom-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ========== VARIANT 3: Side Panel ========== */
+    .v3 {
+      display: flex;
+      flex-direction: row;
+      min-height: 600px;
+    }
+    .v3 .iframe-area {
+      flex: 7;
+      min-width: 0;
+    }
+    .v3 .iframe-area iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 600px;
+    }
+    .v3 .side-panel {
+      flex: 3;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border-left: 1px solid #f0f0f0;
+      justify-content: center;
+    }
+    .v3 .side-panel .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .v3 .side-panel .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .v3 .side-panel .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    /* ========== VARIANT 4: Overlay Gradient ========== */
+    .v4 {
+      position: relative;
+    }
+    .v4 iframe {
+      height: 620px;
+    }
+    .v4 .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+      padding: 60px 28px 28px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .v4 .overlay__left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .v4 .overlay__left .title {
+      color: white;
+      font-size: 22px;
+    }
+    .v4 .overlay__left .subtitle {
+      color: rgba(255,255,255,0.8);
+    }
+    .v4 .overlay__left .pills {
+      display: flex;
+      gap: 6px;
+    }
+    .v4 .overlay__left .meta {
+      color: rgba(255,255,255,0.6);
+    }
+    .v4 .overlay__right {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      align-items: flex-end;
+    }
+
+    /* ========== VARIANT 5: Title on Top ========== */
+    .v5 .top-section {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 24px 28px 16px;
+      gap: 16px;
+    }
+    .v5 .top-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .v5 .top-left .pills {
+      display: flex;
+      gap: 6px;
+    }
+    .v5 .top-left .meta-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .v5 .top-right {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      align-items: center;
+    }
+    .v5 iframe {
+      height: 540px;
+      border-top: 1px solid #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== VARIANT 1 ==================== -->
+<div class="variant-wrapper">
+  <span class="variant-label">Variant 1 — 底部横排信息条</span>
+  <div class="card v1">
+    <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html"></iframe>
+    <div class="bottom-bar">
+      <div class="bottom-bar__left">
+        <span class="title">Vibe Coding 个人网页教程</span>
+        <span class="pill pill--blue">Design Skill</span>
+        <span class="pill pill--yellow">HTML网页</span>
+        <span class="pill pill--red">教程</span>
+      </div>
+      <div class="bottom-bar__right">
+        <button class="btn btn--primary">一键复刻</button>
+        <button class="btn btn--outline">❤️ 128</button>
+        <button class="btn btn--outline">🔗 分享</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== VARIANT 2 ==================== -->
+<div class="variant-wrapper">
+  <span class="variant-label">Variant 2 — 底部左右分栏</span>
+  <div class="card v2">
+    <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html"></iframe>
+    <div class="bottom-section">
+      <div class="bottom-left">
+        <div class="title">Vibe Coding 个人网页教程</div>
+        <div class="subtitle">用Cola的Design Skill一句话生成个人网页，从 Markdown 到上线全流程教程</div>
+        <div class="pills">
+          <span class="pill pill--blue">Design Skill</span>
+          <span class="pill pill--yellow">HTML网页</span>
+          <span class="pill pill--red">教程</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta">👤 ESTHER不二</span>
+          <span class="meta">⏱ 30分钟</span>
+        </div>
+      </div>
+      <div class="bottom-right">
+        <button class="btn btn--primary">一键复刻</button>
+        <button class="btn btn--outline">❤️ 128</button>
+        <button class="btn btn--outline">🔗 分享</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== VARIANT 3 ==================== -->
+<div class="variant-wrapper">
+  <span class="variant-label">Variant 3 — 侧边信息栏</span>
+  <div class="card v3">
+    <div class="iframe-area">
+      <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html"></iframe>
+    </div>
+    <div class="side-panel">
+      <div class="title">Vibe Coding 个人网页教程</div>
+      <div class="subtitle">用Cola的Design Skill一句话生成个人网页，从 Markdown 到上线全流程教程</div>
+      <div class="pills">
+        <span class="pill pill--blue">Design Skill</span>
+        <span class="pill pill--yellow">HTML网页</span>
+        <span class="pill pill--red">教程</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta">👤 ESTHER不二</span>
+        <span class="meta">⏱ 30分钟</span>
+      </div>
+      <div class="buttons">
+        <button class="btn btn--primary" style="width:100%">一键复刻</button>
+        <button class="btn btn--outline" style="width:100%">❤️ 128</button>
+        <button class="btn btn--outline" style="width:100%">🔗 分享</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== VARIANT 4 ==================== -->
+<div class="variant-wrapper">
+  <span class="variant-label">Variant 4 — 覆盖式底部渐变</span>
+  <div class="card v4">
+    <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html"></iframe>
+    <div class="overlay">
+      <div class="overlay__left">
+        <div class="title">Vibe Coding 个人网页教程</div>
+        <div class="subtitle">用Cola的Design Skill一句话生成个人网页，从 Markdown 到上线全流程教程</div>
+        <div class="pills">
+          <span class="pill pill--blue">Design Skill</span>
+          <span class="pill pill--yellow">HTML网页</span>
+          <span class="pill pill--red">教程</span>
+        </div>
+        <span class="meta">👤 ESTHER不二 &nbsp;·&nbsp; ⏱ 30分钟</span>
+      </div>
+      <div class="overlay__right">
+        <button class="btn btn--primary">一键复刻</button>
+        <button class="btn btn--outline-white">❤️ 128</button>
+        <button class="btn btn--outline-white">🔗 分享</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== VARIANT 5 ==================== -->
+<div class="variant-wrapper">
+  <span class="variant-label">Variant 5 — 标题在上方 + 大iframe</span>
+  <div class="card v5">
+    <div class="top-section">
+      <div class="top-left">
+        <div class="title">Vibe Coding 个人网页教程</div>
+        <div class="subtitle">用Cola的Design Skill一句话生成个人网页，从 Markdown 到上线全流程教程</div>
+        <div class="pills">
+          <span class="pill pill--blue">Design Skill</span>
+          <span class="pill pill--yellow">HTML网页</span>
+          <span class="pill pill--red">教程</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta">👤 ESTHER不二</span>
+          <span class="meta">⏱ 30分钟</span>
+        </div>
+      </div>
+      <div class="top-right">
+        <button class="btn btn--primary">一键复刻</button>
+        <button class="btn btn--outline">❤️ 128</button>
+        <button class="btn btn--outline">🔗 分享</button>
+      </div>
+    </div>
+    <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html"></iframe>
+  </div>
+</div>
+
+</body>
+</html>
