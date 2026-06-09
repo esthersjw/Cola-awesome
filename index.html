@@ -7,10 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --orange: #FF6B35;
-  --orange-mid: #FF8C5A;
+  --orange: #F1752D;
   --orange-deep: #D45A1A;
-  --orange-light: #FFD4C0;
+  --orange-light: #FFE0CC;
   --blue: #2B7FD8;
   --blue-light: #E3F0FF;
   --dark: #1A1A2E;
@@ -29,7 +28,7 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
 }
-::selection { background: rgba(255,107,53,0.2); color: var(--ink); }
+::selection { background: rgba(241,117,45,0.2); color: var(--ink); }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
 
 /* ====== HERO ====== */
@@ -143,7 +142,7 @@ body {
   width: 100%;
 }
 .filter-btn:hover {
-  background: rgba(255,107,53,0.06);
+  background: rgba(241,117,45,0.06);
   color: var(--orange);
 }
 .filter-btn.active {
@@ -161,245 +160,106 @@ body {
   font-weight: 600;
 }
 
-/* ====== CASES GRID (vertical stack) ====== */
+/* ====== CASE GRID ====== */
 .cases-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: clamp(20px, 2.5vw, 28px);
 }
-
-/* ====== FLIP CARD ====== */
-.scene {
-  width: 100%;
-  perspective: 1200px;
-}
-
-.card {
-  width: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.card.is-flipped {
-  transform: rotateY(180deg);
-}
-
-.card__face {
-  width: 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: 16px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
-  overflow: hidden;
-  background: #fff;
-}
-
-.card__face--front {
-  position: relative;
-  cursor: pointer;
-}
-
-.card__face--back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  transform: rotateY(180deg);
-}
-
-/* FRONT: Preview */
-.front-preview {
-  width: 100%;
-  height: 260px;
-  position: relative;
-  overflow: hidden;
-}
-
-.front-preview iframe {
-  width: 300%;
-  height: 300%;
-  border: none;
-  pointer-events: none;
-  transform: scale(0.333);
-  transform-origin: top left;
-}
-
-.front-preview a {
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-}
-.front-preview__hint {
-  position: absolute;
-  bottom: 12px;
-  right: 16px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.85);
-  background: rgba(0,0,0,0.5);
-  padding: 4px 12px;
+.case-card {
+  background: white;
   border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, opacity 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.case-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(241,117,45,0.1);
+}
+.case-card.hidden {
+  display: none;
+}
+.case-card .card-preview {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  position: relative;
+  background: var(--cream-dark);
+}
+.case-card .card-preview iframe {
+  width: 200%;
+  height: 200%;
+  border: none;
+  transform: scale(0.5);
+  transform-origin: top left;
   pointer-events: none;
 }
-
-/* FRONT: Bottom section */
-.bottom-section {
-  display: flex;
-  flex-direction: column;
-  padding: 16px 20px;
-  border-top: 1px solid #f0f0f0;
-  gap: 12px;
+.case-card .card-preview .preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(255,248,240,0.9) 100%);
+  pointer-events: none;
 }
-
-.bottom-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.card-title {
-  font-family: 'Fraunces', serif;
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--ink);
-}
-
-.card-subtitle {
-  font-size: 12px;
-  color: var(--ink-light);
-  line-height: 1.5;
-}
-
-.pills {
+.case-card .card-body { padding: 24px 28px 28px; }
+.case-card .card-tags {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  margin-bottom: 12px;
 }
-
-.pill {
-  font-size: 12px;
-  font-weight: 500;
-  padding: 3px 12px;
-  border-radius: 20px;
-  white-space: nowrap;
+.case-card .card-tags .tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.65rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
 }
-.pill--1 { background: #FF6B35; color: #fff; }
-.pill--2 { background: #FF8C5A; color: #fff; }
-.pill--3 { background: #FFD4C0; color: #664030; }
-
-.meta-row {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  font-size: 12px;
+.case-card .card-tags .tag.tag-industry {
+  background: var(--orange-light);
+  color: var(--orange-deep);
+}
+.case-card .card-tags .tag.tag-feature {
+  background: var(--blue-light);
+  color: var(--blue);
+}
+.case-card .card-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.case-card .card-desc {
+  font-size: 0.88rem;
   color: var(--ink-light);
+  line-height: 1.7;
 }
-
-.bottom-right {
+.case-card .card-meta {
   display: flex;
-  flex-direction: row;
-  gap: 8px;
   align-items: center;
-  flex-shrink: 0;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0ede8;
 }
-
-.btn {
-  font-family: 'Noto Sans SC', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 8px 20px;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.1s;
-}
-.btn:hover { transform: scale(1.02); }
-.btn--primary { background: #FF6B35; color: white; }
-.btn--outline { background: transparent; border: none; color: var(--ink-faint); font-size: 12px; font-weight: 400; padding: 4px 8px; cursor: pointer; }
-
-/* BACK */
-.back-wrap {
-  position: relative;
-}
-
-.back-wrap iframe {
-  border: none;
-}
-
-.back-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
+.case-card .card-meta .meta-avatar {
+  width: 28px; height: 28px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 18px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+  background: var(--orange-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; color: var(--orange-deep);
 }
-.back-close:hover { background: rgba(0,0,0,0.8); }
-
-/* Cost Roller */
-.cost-roller {
-  display: inline-block;
-  cursor: pointer;
-  user-select: none;
-}
-.cost-roller__window {
-  display: block;
-  height: 20px;
-  overflow: hidden;
-  border-radius: 4px;
-}
-.cost-roller__track {
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.cost-item {
-  height: 20px;
-  line-height: 20px;
-  padding: 0 8px;
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-
-/* Toast */
-.toast {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--ink);
-  color: white;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-size: 14px;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s;
-  z-index: 9999;
-}
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+.case-card .card-meta .meta-info { font-size: 0.75rem; color: var(--ink-faint); }
+.case-card .card-meta .meta-info strong { color: var(--ink-light); font-weight: 600; }
 
 /* ====== EMPTY STATE ====== */
 .empty-state {
+  grid-column: 1 / -1;
   text-align: center;
   padding: 80px 20px;
   display: none;
@@ -445,14 +305,12 @@ body {
   .filter-section { margin-bottom: 0; min-width: max-content; }
   .filter-list { flex-direction: row; gap: 6px; }
   .filter-btn { white-space: nowrap; padding: 6px 14px; }
+  .cases-grid { grid-template-columns: 1fr; }
+  .case-card .card-preview { height: 220px; }
 }
-@media (max-width: 640px) {
+@media (max-width: 600px) {
   body { font-size: 15px; }
   .hero .stats { gap: 20px; }
-  .front-preview { height: 320px; }
-  .bottom-section { flex-direction: column; gap: 16px; }
-  .bottom-right { align-items: flex-start; flex-direction: row; gap: 12px; }
-  .cases-grid { gap: 40px; }
 }
 </style>
 </head>
@@ -524,115 +382,59 @@ body {
     <!-- CASE GRID -->
     <div class="cases-grid">
 
-      <!-- Case 1: Vibe Coding 个人网页教程 -->
-      <div class="scene reveal" data-industries="个人品牌" data-features="Web App,Design">
-        <div class="card" data-card="case1">
-          <!-- FRONT -->
-          <div class="card__face card__face--front">
-            <div class="front-preview">
-              <iframe src="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html" loading="lazy"></iframe>
-              <a href="https://esthersjw.github.io/Cola-awesome/cases/vibe-coding-site/index.html" target="_blank"></a>
-            </div>
-            <div class="bottom-section" data-flip="case1">
-              <span style="font-size:11px; color:var(--ink-faint); margin-bottom:-4px;">点击翻转查看成果 →</span>
-              <div class="bottom-left">
-                <div class="card-title">Vibe Coding 个人网页教程</div>
-                <div class="card-subtitle">用Cola的Design Skill一句话生成个人网页，从 Markdown 到上线全流程教程</div>
-                <div class="pills">
-                  <span class="pill pill--1">Design Skill</span>
-                  <span class="pill pill--2">HTML网页</span>
-                  <span class="pill pill--3">教程</span>
-                </div>
-                <div class="meta-row">
-                  <span>👤 ESTHER不二</span>
-                  <span>⏱ 30分钟</span>
-                  <span class="cost-roller" data-roller="case1">
-                    <span class="cost-roller__window">
-                      <span class="cost-roller__track">
-                        <span class="cost-item" style="background: #FF6B35; color: #fff;">Max $10</span>
-                        <span class="cost-item" style="background: #FF8C5A; color: #fff;">Pro $8</span>
-                        <span class="cost-item" style="background: #FFD4C0; color: #664030;">Lite $1</span>
-                      </span>
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <div class="bottom-right">
-                <button class="btn btn--primary" data-action="replicate">一键复刻</button>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                  <button class="btn btn--outline" data-action="like" data-key="cola_case1_liked">❤️ <span class="like-count">128</span></button>
-                  <button class="btn btn--outline" data-action="share">🔗 分享</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- BACK -->
-          <div class="card__face card__face--back">
-            <div class="back-wrap">
-              <iframe src="https://esthersjw.github.io/esther-website/" loading="lazy"></iframe>
-              <button class="back-close" title="翻回去">↩</button>
-            </div>
-          </div>
+    <!-- Case 1: 合同管理系统 -->
+    <a class="case-card reveal"
+       href="https://fxy2311-youyou.github.io/cola-pages/contract-system/" target="_blank"
+       data-industries="贸易管理"
+       data-features="Web App,Tool">
+      <div class="card-preview">
+        <iframe src="https://fxy2311-youyou.github.io/cola-pages/contract-system/" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag tag-industry">贸易管理</span>
+          <span class="tag tag-feature">网站/Web App</span>
+          <span class="tag tag-feature">工具/系统</span>
+        </div>
+        <h3 class="card-title">不到300块，用AI搭了个合同管理系统</h3>
+        <p class="card-desc">做贸易分销的普通人，用AI对话搭出完整的合同+订单管理工具。出合同从30分钟→3分钟，成本降低99%。</p>
+        <div class="card-meta">
+          <div class="meta-avatar">🏭</div>
+          <div class="meta-info"><strong>Sisi</strong> · 效率提升10x</div>
         </div>
       </div>
+    </a>
 
-      <!-- Case 2: 合同管理系统 -->
-      <div class="scene reveal reveal-d1" data-industries="贸易管理" data-features="Web App,Tool">
-        <div class="card" data-card="case2">
-          <!-- FRONT -->
-          <div class="card__face card__face--front">
-            <div class="front-preview">
-              <iframe src="https://fxy2311-youyou.github.io/cola-pages/contract-system/" loading="lazy"></iframe>
-              <a href="https://fxy2311-youyou.github.io/cola-pages/contract-system/" target="_blank"></a>
-            </div>
-            <div class="bottom-section" data-flip="case2">
-              <span style="font-size:11px; color:var(--ink-faint); margin-bottom:-4px;">点击翻转查看成果 →</span>
-              <div class="bottom-left">
-                <div class="card-title">合同管理系统</div>
-                <div class="card-subtitle">用Cola一句话生成合同全生命周期管理工具，从录入到提醒全自动化</div>
-                <div class="pills">
-                  <span class="pill pill--1">Vibe Coding</span>
-                  <span class="pill pill--2">Web App</span>
-                  <span class="pill pill--3">工具</span>
-                </div>
-                <div class="meta-row">
-                  <span>👤 Sisi</span>
-                  <span>⏱ 45分钟</span>
-                  <span class="cost-roller" data-roller="case2">
-                    <span class="cost-roller__window">
-                      <span class="cost-roller__track">
-                        <span class="cost-item" style="background: #FF6B35; color: #fff;">Max $10</span>
-                        <span class="cost-item" style="background: #FF8C5A; color: #fff;">Pro $8</span>
-                        <span class="cost-item" style="background: #FFD4C0; color: #664030;">Lite $1</span>
-                      </span>
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <div class="bottom-right">
-                <button class="btn btn--primary" data-action="replicate">一键复刻</button>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                  <button class="btn btn--outline" data-action="like" data-key="cola_case2_liked">❤️ <span class="like-count">96</span></button>
-                  <button class="btn btn--outline" data-action="share">🔗 分享</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- BACK -->
-          <div class="card__face card__face--back">
-            <div class="back-wrap">
-              <iframe src="https://fxy2311-youyou.github.io/cola-pages/contract-demo/" loading="lazy"></iframe>
-              <button class="back-close" title="翻回去">↩</button>
-            </div>
-          </div>
+    <!-- Case 2: 个人网站 -->
+    <a class="case-card reveal reveal-d1"
+       href="cases/vibe-coding-site/index.html" target="_blank"
+       data-industries="个人品牌,设计"
+       data-features="Web App,Design">
+      <div class="card-preview">
+        <iframe src="cases/vibe-coding-site/index.html" loading="lazy" tabindex="-1"></iframe>
+        <div class="preview-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          <span class="tag tag-industry">个人品牌</span>
+          <span class="tag tag-feature">网站/Web App</span>
+          <span class="tag tag-feature">设计/视觉</span>
+        </div>
+        <h3 class="card-title">从0到1，用AI对话搓出个人网站</h3>
+        <p class="card-desc">不会写代码的设计师，用Cola对话7步搓出完整个人网站。找灵感→定结构→填内容→部署上线，全程0行代码。</p>
+        <div class="card-meta">
+          <div class="meta-avatar">✨</div>
+          <div class="meta-info"><strong>ESTHER不二</strong> · 7步从0到上线</div>
         </div>
       </div>
+    </a>
 
-      <!-- Empty State -->
-      <div class="empty-state">
-        <div class="empty-emoji">🔍</div>
-        <p class="empty-text">这个组合暂时没有case，换个筛选条件试试？</p>
-      </div>
+    <!-- Empty State -->
+    <div class="empty-state">
+      <div class="empty-emoji">🔍</div>
+      <p class="empty-text">这个组合暂时没有case，换个筛选条件试试？</p>
+    </div>
 
     </div>
   </div>
@@ -649,8 +451,6 @@ body {
   </div>
 </footer>
 
-<div class="toast" id="toast"></div>
-
 <script>
 // Scroll reveal
 const observer = new IntersectionObserver((entries) => {
@@ -663,103 +463,25 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Toast
-const toast = document.getElementById('toast');
-function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-// Init each card independently
-document.querySelectorAll('.card').forEach(card => {
-  const cardId = card.dataset.card;
-  const frontFace = card.querySelector('.card__face--front');
-  const backClose = card.querySelector('.back-close');
-  const btnReplicate = card.querySelector('[data-action="replicate"]');
-  const btnLike = card.querySelector('[data-action="like"]');
-  const btnShare = card.querySelector('[data-action="share"]');
-  const likeCountEl = card.querySelector('.like-count');
-  const roller = card.querySelector('.cost-roller');
-  const track = roller.querySelector('.cost-roller__track');
-
-  // Cost roller
-  let costIndex = 0;
-  const costTotal = 3;
-  function updateRoller() {
-    track.style.transform = `translateY(-${costIndex * 20}px)`;
-  }
-  roller.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.deltaY > 0) costIndex = (costIndex + 1) % costTotal;
-    else costIndex = (costIndex - 1 + costTotal) % costTotal;
-    updateRoller();
-  });
-  roller.addEventListener('click', (e) => {
-    e.stopPropagation();
-    costIndex = (costIndex + 1) % costTotal;
-    updateRoller();
-  });
-
-  // Flip - only from bottom section
-  const bottomSection = card.querySelector('.bottom-section');
-  bottomSection.addEventListener('click', (e) => {
-    if (e.target.closest('.btn') || e.target.closest('.cost-roller')) return;
-    card.classList.add('is-flipped');
-  });
-  backClose.addEventListener('click', () => card.classList.remove('is-flipped'));
-
-  // Replicate
-  btnReplicate.addEventListener('click', (e) => {
-    e.stopPropagation();
-    showToast('功能即将上线');
-  });
-
-  // Like
-  const likeKey = btnLike.dataset.key;
-  const baseCount = parseInt(likeCountEl.textContent);
-  let liked = localStorage.getItem(likeKey) === '1';
-  function updateLike() {
-    likeCountEl.textContent = liked ? baseCount + 1 : baseCount;
-  }
-  updateLike();
-  btnLike.addEventListener('click', (e) => {
-    e.stopPropagation();
-    liked = !liked;
-    localStorage.setItem(likeKey, liked ? '1' : '0');
-    updateLike();
-  });
-
-  // Share
-  btnShare.addEventListener('click', async (e) => {
-    e.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      showToast('链接已复制到剪贴板');
-    } catch { showToast('复制失败'); }
-  });
-});
-
 // === DUAL-DIMENSION FILTER LOGIC ===
 let activeIndustry = 'all';
 let activeFeature = 'all';
 
-const scenes = document.querySelectorAll('.scene[data-industries]');
+const cards = document.querySelectorAll('.case-card');
 const emptyState = document.querySelector('.empty-state');
 
 function applyFilters() {
   let visibleCount = 0;
-  scenes.forEach(scene => {
-    const industries = (scene.dataset.industries || '').split(',');
-    const features = (scene.dataset.features || '').split(',');
+  cards.forEach(card => {
+    const industries = (card.dataset.industries || '').split(',');
+    const features = (card.dataset.features || '').split(',');
     const matchIndustry = activeIndustry === 'all' || industries.includes(activeIndustry);
     const matchFeature = activeFeature === 'all' || features.includes(activeFeature);
     if (matchIndustry && matchFeature) {
-      scene.style.display = '';
+      card.classList.remove('hidden');
       visibleCount++;
     } else {
-      scene.style.display = 'none';
+      card.classList.add('hidden');
     }
   });
   if (visibleCount === 0) {
@@ -773,8 +495,10 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const dimension = btn.dataset.dimension;
     const value = btn.dataset.value;
+    // Update active state within same dimension
     document.querySelectorAll(`.filter-btn[data-dimension="${dimension}"]`).forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    // Update filter value
     if (dimension === 'industry') activeIndustry = value;
     if (dimension === 'feature') activeFeature = value;
     applyFilters();
