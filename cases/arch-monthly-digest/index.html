@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搭把手 Case #1:建筑数智化月报 Skill - 从SOP诊断到Skill落地全过程</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --orange: #F1752D;
+      --orange-deep: #D45A1A;
+      --orange-light: #FFE0CC;
+      --dark: #1A1A2E;
+      --cream: #FFF8F0;
+      --cream-dark: #faf6eb;
+      --ink: #1A1A2E;
+      --ink-light: #4A4A5A;
+      --ink-faint: #8A8A9A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink);
+      background: var(--cream);
+    }
+
+    ::selection {
+      background: var(--orange-light);
+      color: var(--ink);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* === NAV === */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(255,248,240,.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(26,26,26,.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: 'Fraunces', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--orange);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink-light);
+      font-size: 0.8rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    /* === HERO === */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+    }
+    .hero-kicker {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--orange);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.2;
+      max-width: 780px;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--ink-light);
+      margin-top: 1.5rem;
+      max-width: 560px;
+    }
+    .hero-image {
+      margin-top: 3rem;
+      width: 100%;
+      max-width: 900px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* === SECTIONS === */
+    .section {
+      padding: clamp(80px, 12vh, 160px) 0;
+    }
+    .section--alt {
+      background: var(--cream-dark);
+    }
+
+    .section-header {
+      margin-bottom: clamp(40px, 6vw, 72px);
+    }
+    .section-number {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--orange);
+      opacity: 0.35;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    }
+
+    /* === ILLUSTRATION DISPLAY === */
+    .illust-frame {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+      margin-bottom: clamp(32px, 4vw, 56px);
+      background: #fff;
+    }
+    .illust-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* === STICKY LAYOUT === */
+    .layout-sticky {
+      display: grid;
+      grid-template-columns: 0.32fr 1fr;
+      gap: clamp(40px, 6vw, 100px);
+      align-items: start;
+    }
+    .sticky-side {
+      position: sticky;
+      top: 100px;
+    }
+    @media (max-width: 900px) {
+      .layout-sticky {
+        grid-template-columns: 1fr;
+      }
+      .sticky-side { position: static; }
+    }
+
+    /* === QUOTE BLOCK (方案5风格) === */
+    .sop-quote {
+      position: relative;
+      background: #fff;
+      border-radius: 14px;
+      padding: 32px 32px 32px 56px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+      margin: 24px 0;
+    }
+    .sop-quote::before {
+      content: '\201C';
+      position: absolute;
+      top: 12px;
+      left: 18px;
+      font-family: 'Fraunces', serif;
+      font-size: 3.8rem;
+      line-height: 1;
+      color: #F4D758;
+      opacity: 0.7;
+    }
+    .sop-quote .sop-tag {
+      display: inline-block;
+      background: rgba(43,127,216,0.1);
+      color: #1E5BA8;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.68rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .sop-quote p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+
+    /* === FIX BLOCK === */
+    .fix-block {
+      margin-top: 12px;
+      padding-left: 16px;
+      border-left: 3px solid var(--orange);
+    }
+    .fix-block strong {
+      color: var(--orange);
+      font-size: 0.85rem;
+    }
+    .fix-block p {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      margin-top: 4px;
+    }
+
+    /* === DISEASE CARD === */
+    .disease-cards {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(32px, 4vw, 48px);
+    }
+    .disease-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: clamp(28px, 3vw, 40px);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .disease-card .card-num {
+      position: absolute;
+      top: -12px;
+      right: 12px;
+      font-family: 'Fraunces', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: rgba(241,117,45,0.06);
+      line-height: 1;
+    }
+    .disease-card h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    /* === CODE PANEL (macOS) === */
+    .skill-split {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      margin-top: clamp(24px, 3vw, 40px);
+    }
+    .skill-split-left {
+      padding: 36px 32px;
+      border-right: 1px solid rgba(0,0,0,0.04);
+    }
+    .skill-split-left .ss-title {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--ink-faint, #999);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .skill-split-left .ss-tree {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      line-height: 2.2;
+      color: var(--ink-light);
+    }
+    .skill-split-left .ss-tree .folder { color: var(--blue, #2B7FD8); font-weight: 600; }
+    .skill-split-left .ss-tree .file { color: var(--ink); }
+    .skill-split-left .ss-tree .comment { color: var(--ink-faint, #999); font-size: 0.78rem; }
+    .skill-split-right {
+      padding: 36px 32px;
+    }
+    .skill-split-right .ss-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .skill-split-right .ss-rules { list-style: none; padding: 0; }
+    .skill-split-right .ss-rules li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--ink-light);
+    }
+    .skill-split-right .ss-rules li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2.5px solid var(--orange);
+    }
+    .skill-split-right .ss-rules li strong { color: var(--ink); }
+    @media (max-width: 700px) {
+      .skill-split { grid-template-columns: 1fr; }
+      .skill-split-left { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    }
+
+    /* === DECISIONS GRID === */
+    .decisions-carousel { position: relative; margin-top: clamp(24px, 3vw, 40px); }
+    .decisions-viewport { overflow: hidden; border-radius: 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .decisions-track { display: flex; transition: transform 0.4s ease; }
+    .decisions-slide {
+      min-width: 100%;
+      background: #fff;
+      padding: 48px 40px;
+    }
+    .decisions-slide .ds-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
+    .decisions-slide .ds-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 900; color: var(--orange); }
+    .decisions-slide .ds-title { font-family: 'Noto Serif SC', serif; font-size: 1.3rem; font-weight: 700; }
+    .decisions-slide .ds-body { font-size: 1.05rem; color: var(--ink-light); line-height: 2.1; }
+    .decisions-slide .ds-body strong { color: var(--ink); }
+    .decisions-nav { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 20px; }
+    .decisions-nav .dn-btn {
+      width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--orange);
+      background: transparent; color: var(--orange); font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s;
+    }
+    .decisions-nav .dn-btn:hover { background: var(--orange); color: #fff; }
+    .decisions-nav .dn-dots { display: flex; gap: 8px; }
+    .decisions-nav .dn-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(0,0,0,0.1); transition: background 0.2s; }
+    .decisions-nav .dn-dot.active { background: var(--orange); }
+    @media (max-width: 600px) {
+      .decisions-slide { padding: 32px 24px; }
+      .decisions-slide .ds-title { font-size: 1.1rem; }
+    }
+
+    /* === FILE TREE === */
+    .file-tree {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      line-height: 2;
+      color: #a9b1d6;
+    }
+    .file-tree .folder { color: #7aa2f7; }
+    .file-tree .comment { color: #565f89; }
+
+    /* === RULES LIST === */
+
+
+    /* === COMPARE TABLE === */
+    .compare-bars {
+      margin-top: clamp(24px, 3vw, 40px);
+    }
+    .compare-bars .bar-row {
+      margin-bottom: 24px;
+    }
+    .compare-bars .bar-row-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .compare-bars .bar-pair {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .compare-bars .bar-wrap {
+      flex: 1;
+      height: 36px;
+      background: rgba(0,0,0,0.03);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .compare-bars .bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #fff;
+      transition: width 1s ease;
+    }
+    .compare-bars .bar-fill.before {
+      background: var(--orange, #F1752D);
+      opacity: 0.35;
+    }
+    .compare-bars .bar-fill.after {
+      background: var(--orange, #F1752D);
+    }
+    .compare-bars .bar-legend {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      font-size: 0.7rem;
+      color: var(--ink-light);
+    }
+    .compare-bars .bar-legend span::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .compare-bars .bar-legend .leg-before::before { background: var(--orange, #F1752D); opacity: 0.35; }
+    .compare-bars .bar-legend .leg-after::before { background: var(--orange, #F1752D); }
+
+    /* === STEPS TABLE === */
+    .steps-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      overflow: hidden;
+      margin-top: clamp(24px, 3vw, 40px);
+    }
+    .steps-bar .sb-cell {
+      padding: 28px 16px;
+      text-align: center;
+      border-right: 1px solid rgba(0,0,0,0.04);
+      position: relative;
+    }
+    .steps-bar .sb-cell:last-child { border-right: none; }
+    .steps-bar .sb-cell::after {
+      content: '→';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-faint, #999);
+      font-size: 1rem;
+      z-index: 1;
+    }
+    .steps-bar .sb-cell:last-child::after { display: none; }
+    .steps-bar .sb-num {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--orange);
+      opacity: 0.4;
+      margin-bottom: 10px;
+    }
+    .steps-bar .sb-cell:nth-child(even) .sb-num { color: var(--blue); }
+    .steps-bar .sb-name { font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; }
+    .steps-bar .sb-you { font-size: 0.8rem; color: var(--ink); margin-bottom: 6px; }
+    .steps-bar .sb-ai { font-size: 0.8rem; color: var(--blue); }
+    .steps-quote {
+      margin-top: 20px;
+      padding: 24px 28px;
+      background: var(--cream-dark);
+      border-radius: 14px;
+      text-align: center;
+    }
+    .steps-quote p {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 2;
+      color: var(--ink);
+    }
+
+    /* === METHOD LIST === */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: clamp(24px, 3vw, 40px);
+    }
+    .method-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px 18px 24px;
+      box-shadow: 0 3px 18px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .method-card:hover { transform: translateY(-3px); }
+    .method-card .m-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--cream-dark, #faf6eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      border: 2px solid rgba(0,0,0,0.04);
+    }
+    .method-card h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .method-card p {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      line-height: 1.7;
+      flex: 1;
+    }
+    .method-card .m-foot {
+      margin-top: 14px;
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: #999;
+    }
+
+    /* === PULL QUOTE === */
+
+
+    /* === FOOTER === */
+    .footer {
+      padding: clamp(40px, 6vh, 80px) 0;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 0.82rem;
+      color: var(--ink-faint);
+    }
+    .footer a {
+      color: var(--orange);
+      text-decoration: none;
+    }
+    .footer a:hover { text-decoration: underline; }
+
+    /* === FLOW DIAGRAM === */
+    .flow-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 28px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(241,117,45,0.15);
+      margin: 20px 0;
+    }
+    .flow-bar .flow-step {
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      background: var(--cream-dark);
+      border-radius: 8px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .flow-bar .flow-step.highlight {
+      background: var(--orange-light);
+      color: var(--orange-deep);
+      font-weight: 700;
+    }
+    .flow-bar .flow-arrow {
+      color: var(--orange);
+      font-size: 1.1rem;
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      .hero { min-height: auto; padding: 6rem 1.5rem 3rem; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      body { font-size: 15px; }
+      .container { padding: 0 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="#">搭把手计划</a>
+    <div class="nav-links">
+      <a href="#diagnosis">诊断</a>
+      <a href="#decisions">决策</a>
+      <a href="#structure">Skill结构</a>
+      <a href="#result">实战结果</a>
+      <a href="#method">方法论</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="reveal">
+      <span class="hero-kicker">搭把手 Case #1</span>
+      <h1>建筑数智化月报 Skill</h1>
+      <p class="hero-sub">从SOP诊断到Skill落地全过程</p>
+    </div>
+    <div class="hero-image reveal reveal-d1">
+      <img src="assets/01-Momo的背景.png" alt="Momo的背景">
+    </div>
+  </section>
+
+  <!-- SECTION 1: 背景 -->
+  <section class="section" id="background">
+    <div class="container">
+      <div class="layout-sticky">
+        <div class="sticky-side reveal">
+          <span class="section-number">01</span>
+          <h2 class="section-title">Momo的背景</h2>
+        </div>
+        <div class="content-scroll">
+          <div class="reveal reveal-d1">
+            <p style="font-size: 1rem; color: var(--ink-light); line-height: 1.9; max-width: 640px;">
+              搭把手计划的第一个 case。
+            </p>
+            <p style="font-size: 1rem; color: var(--ink-light); line-height: 1.9; margin-top: 16px; max-width: 640px;">
+              Momo 做建筑数智化咨询,每月要输出一份行业资讯月报。他不是 AI 小白--已经会用 Agent 和 Skill,也自己写了一份4000字的完整 SOP。
+            </p>
+            <p style="font-size: 1rem; color: var(--ink-light); line-height: 1.9; margin-top: 16px; max-width: 640px;">
+              他把 SOP 喂给 AI 执行月报采集。
+            </p>
+            <div class="pull-quote" style="max-width: 540px; margin-top: 32px; text-align: center;">
+              <p>结果:20条里只有2条可用。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: 诊断 -->
+  <section class="section section--alt" id="diagnosis">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">02</span>
+        <h2 class="section-title">诊断:3个病根</h2>
+      </div>
+
+      <div class="illust-frame reveal reveal-d1">
+        <img src="assets/02-诊断.png" alt="诊断">
+      </div>
+
+      <div class="reveal reveal-d2" style="margin-bottom: 32px;">
+        <p style="font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 8px;">核心判断:</p>
+        <p style="font-size: 1.05rem; color: var(--orange-deep); font-weight: 700;">这份 SOP 是验收标准,不是执行方案。</p>
+      </div>
+
+      <div class="disease-cards reveal reveal-d3">
+        <!-- 病根一 -->
+        <div class="disease-card">
+          <span class="card-num">01</span>
+          <h3>病根一:指令不可执行</h3>
+          <div class="sop-quote">
+            <span class="sop-tag">SOP原文</span>
+            <p>"优先检索:中建、中铁、中交等央国企官网"</p>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--ink-light); margin-top: 12px;">AI 不知道访问哪个网址、用什么方式抓。方向对了,但缺"怎么做"。</p>
+          <div class="fix-block">
+            <strong>→ 修复:</strong>
+            <p>给每个来源写具体网址+抓取方式+实测验证。</p>
+          </div>
+        </div>
+
+        <!-- 病根二 -->
+        <div class="disease-card">
+          <span class="card-num">02</span>
+          <h3>病根二:条数指标逼 AI 凑数</h3>
+          <div class="sop-quote">
+            <span class="sop-tag">SOP原文</span>
+            <p>"正文建议:18-22条"</p>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--ink-light); margin-top: 12px;">合格的只有8条?AI 就降低标准硬凑18条。数量要求和质量要求冲突时,AI 优先满足数量。</p>
+          <div class="fix-block">
+            <strong>→ 修复:</strong>
+            <p>删掉条数指标。满足标准全收,不满足一条都不塞。</p>
+          </div>
+        </div>
+
+        <!-- 病根三 -->
+        <div class="disease-card">
+          <span class="card-num">03</span>
+          <h3>病根三:默认 AI 什么都能做</h3>
+          <p style="font-size: 0.9rem; color: var(--ink-light); margin-top: 8px;">公众号抓取、付费论文、反爬网站--SOP 没处理这些盲区,AI 就假装能做到,输出错误结果。</p>
+          <div class="fix-block">
+            <strong>→ 修复:</strong>
+            <p>明确标注做不到的事,设计替代方案。做不到就声明,不假装。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: 搭把手 4个关键决策 -->
+  <section class="section" id="decisions">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">03</span>
+        <h2 class="section-title">搭把手:4个关键决策</h2>
+      </div>
+
+      <div class="illust-frame reveal reveal-d1">
+        <img src="assets/03-搭把手.png" alt="搭把手">
+      </div>
+
+      <div class="decisions-carousel reveal reveal-d2">
+        <div class="decisions-viewport">
+          <div class="decisions-track" id="decisionsTrack">
+            <div class="decisions-slide">
+              <div class="ds-head"><span class="ds-num">1</span><span class="ds-title">两段式交付,中间硬停顿</span></div>
+              <div class="ds-body">采集筛选(AI) → 候选池 → <strong>停!等人勾选</strong> → 成稿(AI) → 交付<br><br>选题方向如果错了,只损失前期采集的时间,不会浪费后续的成稿时间。</div>
+            </div>
+            <div class="decisions-slide">
+              <div class="ds-head"><span class="ds-num">2</span><span class="ds-title">候选池格式化</span></div>
+              <div class="ds-body">每条必须包含:<strong>分类标签、实测链接、五选三打分、一句话摘要、明确建议</strong>。<br><br>Momo 拿到后5分钟决策完。</div>
+            </div>
+            <div class="decisions-slide">
+              <div class="ds-head"><span class="ds-num">3</span><span class="ds-title">重复劳动脚本化</span></div>
+              <div class="ds-body">顶刊论文用 <strong>API 过滤</strong>,行业新闻用 <strong>RSS 抓取</strong>。<br><br>一行命令解决的事,不让AI推理浪费token。</div>
+            </div>
+            <div class="decisions-slide">
+              <div class="ds-head"><span class="ds-num">4</span><span class="ds-title">偏好沉淀回 Skill</span></div>
+              <div class="ds-body">Momo 的反馈不是一次性修改,而是<strong>写进规则文件</strong>--下次执行自动继承,不需要每次重复说。</div>
+            </div>
+          </div>
+        </div>
+        <div class="decisions-nav">
+          <button class="dn-btn" onclick="decSlide(-1)">←</button>
+          <div class="dn-dots"><span class="dn-dot active"></span><span class="dn-dot"></span><span class="dn-dot"></span><span class="dn-dot"></span></div>
+          <button class="dn-btn" onclick="decSlide(1)">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Skill 结构 -->
+  <section class="section section--alt" id="structure">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">04</span>
+        <h2 class="section-title">最终 Skill 结构</h2>
+      </div>
+
+      <div class="illust-frame reveal reveal-d1">
+        <img src="assets/04-skill结构.png" alt="Skill结构">
+      </div>
+
+      <div class="skill-split reveal reveal-d2">
+        <div class="skill-split-left">
+          <div class="ss-title">文件结构</div>
+          <div class="ss-tree">
+            <span class="folder">arch-digest/</span><br>
+            ├── <span class="file">SKILL.md</span> <span class="comment">主流程+铁律</span><br>
+            ├── <span class="folder">references/</span><br>
+            │&nbsp;&nbsp; ├── <span class="file">sources.md</span> <span class="comment">检索剧本</span><br>
+            │&nbsp;&nbsp; ├── <span class="file">screening.md</span> <span class="comment">筛选规则</span><br>
+            │&nbsp;&nbsp; └── <span class="file">writing.md</span> <span class="comment">写作标准</span><br>
+            └── <span class="folder">scripts/</span><br>
+            &nbsp;&nbsp;&nbsp; ├── <span class="file">fetch-journals.mjs</span><br>
+            &nbsp;&nbsp;&nbsp; └── <span class="file">fetch-rss.mjs</span>
+          </div>
+        </div>
+        <div class="skill-split-right">
+          <div class="ss-title">五条铁律</div>
+          <ul class="ss-rules">
+            <li><strong>没有条数指标</strong></li>
+            <li><strong>两段式交付</strong>,中间硬停顿</li>
+            <li>每条必须有<strong>实测可访问的链接</strong></li>
+            <li>公众号不做自动发现,走<strong>人工喂料</strong></li>
+            <li>转载必须<strong>追溯一手来源</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: 实战结果 -->
+  <section class="section" id="result">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">05</span>
+        <h2 class="section-title">实战结果</h2>
+      </div>
+
+      <div class="illust-frame reveal reveal-d1">
+        <img src="assets/05-实战结果.png" alt="实战结果">
+      </div>
+
+      <div class="compare-bars reveal reveal-d2">
+        <div class="bar-row">
+          <div class="bar-row-label">命中率</div>
+          <div class="bar-pair">
+            <div class="bar-wrap"><div class="bar-fill before" style="width:10%">10%</div></div>
+            <div class="bar-wrap"><div class="bar-fill after" style="width:100%">100%</div></div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-label">Momo 工作量</div>
+          <div class="bar-pair">
+            <div class="bar-wrap"><div class="bar-fill before" style="width:90%">逐条重写</div></div>
+            <div class="bar-wrap"><div class="bar-fill after" style="width:15%">勾选</div></div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-label">方向对齐</div>
+          <div class="bar-pair">
+            <div class="bar-wrap"><div class="bar-fill before" style="width:25%">AI猜</div></div>
+            <div class="bar-wrap"><div class="bar-fill after" style="width:95%">候选池阶段对齐</div></div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-label">来源可靠性</div>
+          <div class="bar-pair">
+            <div class="bar-wrap"><div class="bar-fill before" style="width:30%">混入无效</div></div>
+            <div class="bar-wrap"><div class="bar-fill after" style="width:95%">实测+溯源</div></div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-label">可迭代性</div>
+          <div class="bar-pair">
+            <div class="bar-wrap"><div class="bar-fill before" style="width:20%">每次重复说</div></div>
+            <div class="bar-wrap"><div class="bar-fill after" style="width:90%">偏好自动继承</div></div>
+          </div>
+        </div>
+        <div class="bar-legend">
+          <span class="leg-before">之前(喂SOP)</span>
+          <span class="leg-after">之后(用Skill)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: 从零开始 -->
+  <section class="section section--alt" id="from-zero">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">06</span>
+        <h2 class="section-title">从零开始 Skill 化:5步</h2>
+      </div>
+
+      <div class="illust-frame reveal reveal-d1">
+        <img src="assets/06-从零开始.png" alt="从零开始">
+      </div>
+
+      <div class="steps-bar reveal reveal-d2">
+        <div class="sb-cell"><div class="sb-num">1</div><div class="sb-name">说清楚</div><div class="sb-you">你：回答做什么</div><div class="sb-ai">AI：提问引导</div></div>
+        <div class="sb-cell"><div class="sb-num">2</div><div class="sb-name">拆流程</div><div class="sb-you">你：确认对不对</div><div class="sb-ai">AI：画流程</div></div>
+        <div class="sb-cell"><div class="sb-num">3</div><div class="sb-name">试跑</div><div class="sb-you">你：看产出</div><div class="sb-ai">AI：执行一次</div></div>
+        <div class="sb-cell"><div class="sb-num">4</div><div class="sb-name">反馈</div><div class="sb-you">你：说哪不对</div><div class="sb-ai">AI：沉淀规则</div></div>
+        <div class="sb-cell"><div class="sb-num">5</div><div class="sb-name">固化</div><div class="sb-you">你：确认就这样</div><div class="sb-ai">AI：写成Skill</div></div>
+      </div>
+
+      <div class="steps-quote reveal reveal-d3">
+        <p>“你不需要先写好SOP再给AI。讲清楚这件事，在实践中一轮一轮调。Skill是跟你一起跑出来的。”</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: 方法论 -->
+  <section class="section" id="method">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">07</span>
+        <h2 class="section-title">SOP → Skill 通用方法论</h2>
+      </div>
+
+      <div class="illust-frame reveal reveal-d1">
+        <img src="assets/07-方法论.png" alt="方法论">
+      </div>
+
+      <div class="method-grid reveal reveal-d2">
+        <div class="method-card">
+          <div class="m-circle">🎯</div>
+          <h4>区分验收标准<br>和执行指令</h4>
+          <p>缺执行指令的SOP喂给AI一定出垃圾</p>
+          <div class="m-foot">01</div>
+        </div>
+        <div class="method-card">
+          <div class="m-circle">🚧</div>
+          <h4>标注AI能力边界</h4>
+          <p>做不到就声明,不假装</p>
+          <div class="m-foot">02</div>
+        </div>
+        <div class="method-card">
+          <div class="m-circle">⚖️</div>
+          <h4>拆分判断权</h4>
+          <p>AI做粗筛,人做终选</p>
+          <div class="m-foot">03</div>
+        </div>
+        <div class="method-card">
+          <div class="m-circle">⚡</div>
+          <h4>确定性工作脚本化</h4>
+          <p>API/RSS不需要AI推理</p>
+          <div class="m-foot">04</div>
+        </div>
+        <div class="method-card">
+          <div class="m-circle">🧬</div>
+          <h4>让反馈能沉淀</h4>
+          <p>偏好写进规则,下次自动继承</p>
+          <div class="m-foot">05</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>Skill仓库:<a href="https://github.com/esthersjw/arch-digest" target="_blank">github.com/esthersjw/arch-digest</a></p>
+      <p style="margin-top: 8px; font-size: 0.75rem; color: var(--ink-faint);">搭把手计划 · Cola</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    // Scroll Reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Nav scroll shadow
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.boxShadow = window.scrollY > 20 ? '0 2px 20px rgba(0,0,0,.06)' : 'none';
+    });
+
+    // Lucide icons
+    lucide.createIcons();
+
+    // Decisions carousel
+    let decIdx = 0;
+    function decSlide(dir) {
+      decIdx = Math.max(0, Math.min(3, decIdx + dir));
+      document.getElementById('decisionsTrack').style.transform = `translateX(-${decIdx*100}%)`;
+      document.querySelectorAll('.dn-dot').forEach((d,i) => d.classList.toggle('active', i===decIdx));
+    }
+  </script>
+</body>
+</html>
