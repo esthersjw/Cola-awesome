@@ -25,8 +25,8 @@
 
     body {
       font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
+      font-size: 18px;
+      line-height: 1.8;
       color: var(--ink);
       background: var(--cream);
     }
@@ -145,11 +145,11 @@
 
     /* === ILLUSTRATION DISPLAY === */
     .illust-frame {
-      width: 100%;
-      border-radius: 16px;
+      max-width: 480px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.06);
-      margin-bottom: clamp(32px, 4vw, 56px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      margin-bottom: clamp(24px, 3vw, 40px);
       background: #fff;
     }
     .illust-frame img {
@@ -610,7 +610,7 @@
       .nav-links { display: none; }
     }
     @media (max-width: 600px) {
-      body { font-size: 15px; }
+      body { font-size: 16px; }
       .container { padding: 0 1.2rem; }
     }
   </style>
@@ -663,6 +663,11 @@
             <div class="pull-quote" style="max-width: 540px; margin-top: 32px; text-align: center;">
               <p>结果:20条里只有2条可用。</p>
             </div>
+            <!-- 聊天记录截图拼接 -->
+            <div style="display: flex; gap: 12px; margin-top: 32px; max-width: 640px;">
+              <img src="assets/chat-1.png" alt="聊天记录-背景说明" style="width: 50%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); object-fit: cover;">
+              <img src="assets/chat-2.png" alt="聊天记录-操作反馈" style="width: 50%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); object-fit: cover;">
+            </div>
           </div>
         </div>
       </div>
@@ -677,13 +682,29 @@
         <h2 class="section-title">诊断:3个病根</h2>
       </div>
 
-      <div class="illust-frame reveal reveal-d1">
-        <img src="assets/02-诊断.png" alt="诊断">
-      </div>
 
-      <div class="reveal reveal-d2" style="margin-bottom: 32px;">
-        <p style="font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 8px;">核心判断:</p>
-        <p style="font-size: 1.05rem; color: var(--orange-deep); font-weight: 700;">这份 SOP 是验收标准,不是执行方案。</p>
+
+      <!-- Cola完整诊断截图 + 核心判断 左右排 -->
+      <div class="reveal reveal-d1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin-bottom: 36px;">
+        <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+          <img src="assets/cola-full-diagnosis.png" alt="Cola给Momo的完整诊断" style="width: 100%; display: block;">
+          <p style="font-size: 0.75rem; color: var(--ink-faint); padding: 8px 12px; background: #f8f6f2;">↑ Cola 给 Momo 的完整诊断反馈</p>
+        </div>
+        <div>
+          <p style="font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 8px;">核心判断:</p>
+          <p style="font-size: 1.05rem; color: var(--orange-deep); font-weight: 700;">这份 SOP 是验收标准,不是执行方案。</p>
+          <p style="font-size: 0.88rem; color: var(--ink-light); margin-top: 12px; line-height: 1.8;">20条里2条可用,问题出在三个地方:检索环节没有可执行的指令、条数硬指标逼着Agent凑数、以及几个Agent天生够不着的盲区。</p>
+          <!-- Agent盲区 -->
+          <div style="margin-top: 20px; padding: 16px; background: rgba(232,74,95,0.04); border-radius: 10px;">
+            <p style="font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 8px;">🚨 Agent确实做不到的:</p>
+            <ul style="font-size: 0.82rem; color: var(--ink-light); line-height: 1.9; padding-left: 16px; margin: 0;">
+              <li><strong>公众号内容</strong> - 微信封闭,搜不到抓不到</li>
+              <li><strong>首发时间核实</strong> - 时间过滤不可靠,混进旧闻</li>
+              <li><strong>顶刊论文全文</strong> - 付费墙,只能拿摘要</li>
+              <li><strong>部分政府官网</strong> - 检索差,政策原文追不回</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="disease-cards reveal reveal-d3">
@@ -739,7 +760,8 @@
         <h2 class="section-title">搭把手:4个关键决策</h2>
       </div>
 
-      <div class="illust-frame reveal reveal-d1">
+      <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; align-items: start;" class="reveal reveal-d1">
+      <div class="illust-frame" style="position: sticky; top: 80px;">
         <img src="assets/03-搭把手.png" alt="搭把手">
       </div>
 
@@ -770,6 +792,7 @@
           <button class="dn-btn" onclick="decSlide(1)">→</button>
         </div>
       </div>
+      </div><!-- close grid -->
     </div>
   </section>
 
@@ -781,20 +804,17 @@
         <h2 class="section-title">最终 Skill 结构</h2>
       </div>
 
-      <div class="illust-frame reveal reveal-d1">
-        <img src="assets/04-skill结构.png" alt="Skill结构">
-      </div>
-
       <div class="skill-split reveal reveal-d2">
         <div class="skill-split-left">
           <div class="ss-title">文件结构</div>
           <div class="ss-tree">
             <span class="folder">arch-digest/</span><br>
-            ├── <span class="file">SKILL.md</span> <span class="comment">主流程+铁律</span><br>
+            ├── <span class="file">SKILL.md</span> <span class="comment">主流程(两段式硬停顿)</span><br>
+            ├── <span class="file">README.md</span> <span class="comment">开源说明</span><br>
             ├── <span class="folder">references/</span><br>
             │&nbsp;&nbsp; ├── <span class="file">sources.md</span> <span class="comment">检索剧本</span><br>
-            │&nbsp;&nbsp; ├── <span class="file">screening.md</span> <span class="comment">筛选规则</span><br>
-            │&nbsp;&nbsp; └── <span class="file">writing.md</span> <span class="comment">写作标准</span><br>
+            │&nbsp;&nbsp; ├── <span class="file">screening.md</span> <span class="comment">五选三评分卡</span><br>
+            │&nbsp;&nbsp; └── <span class="file">writing.md</span> <span class="comment">条目写法+质量检查表</span><br>
             └── <span class="folder">scripts/</span><br>
             &nbsp;&nbsp;&nbsp; ├── <span class="file">fetch-journals.mjs</span><br>
             &nbsp;&nbsp;&nbsp; └── <span class="file">fetch-rss.mjs</span>
@@ -820,10 +840,6 @@
       <div class="section-header reveal">
         <span class="section-number">05</span>
         <h2 class="section-title">实战结果</h2>
-      </div>
-
-      <div class="illust-frame reveal reveal-d1">
-        <img src="assets/05-实战结果.png" alt="实战结果">
       </div>
 
       <div class="compare-bars reveal reveal-d2">
@@ -867,79 +883,37 @@
           <span class="leg-after">之后(用Skill)</span>
         </div>
       </div>
+
+      <!-- 查看完整月报按钮 -->
+      <div class="reveal reveal-d3" style="text-align: center; margin-top: 40px;">
+        <a href="report.html" target="_blank" style="display: inline-block; font-size: 0.95rem; font-weight: 600; padding: 14px 32px; border-radius: 10px; border: 2px solid var(--orange); background: transparent; color: var(--orange); cursor: pointer; transition: all 0.2s; text-decoration: none;" onmouseover="this.style.background='var(--orange)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='var(--orange)'">📄 查看完整月报交付物</a>
+      </div>
     </div>
   </section>
 
-  <!-- SECTION 6: 从零开始 -->
-  <section class="section section--alt" id="from-zero">
+  <!-- SECTION 6: 从零开始 + 通用方法论 -->
+  <section class="section section--alt" id="method">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-number">06</span>
-        <h2 class="section-title">从零开始 Skill 化:5步</h2>
+        <h2 class="section-title">SOP → Skill：从零开始的方法论</h2>
       </div>
 
-      <div class="illust-frame reveal reveal-d1">
-        <img src="assets/06-从零开始.png" alt="从零开始">
-      </div>
-
-      <div class="steps-bar reveal reveal-d2">
-        <div class="sb-cell"><div class="sb-num">1</div><div class="sb-name">说清楚</div><div class="sb-you">你：回答做什么</div><div class="sb-ai">AI：提问引导</div></div>
-        <div class="sb-cell"><div class="sb-num">2</div><div class="sb-name">拆流程</div><div class="sb-you">你：确认对不对</div><div class="sb-ai">AI：画流程</div></div>
-        <div class="sb-cell"><div class="sb-num">3</div><div class="sb-name">试跑</div><div class="sb-you">你：看产出</div><div class="sb-ai">AI：执行一次</div></div>
-        <div class="sb-cell"><div class="sb-num">4</div><div class="sb-name">反馈</div><div class="sb-you">你：说哪不对</div><div class="sb-ai">AI：沉淀规则</div></div>
-        <div class="sb-cell"><div class="sb-num">5</div><div class="sb-name">固化</div><div class="sb-you">你：确认就这样</div><div class="sb-ai">AI：写成Skill</div></div>
-      </div>
-
-      <div class="steps-quote reveal reveal-d3">
-        <p>“你不需要先写好SOP再给AI。讲清楚这件事，在实践中一轮一轮调。Skill是跟你一起跑出来的。”</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 7: 方法论 -->
-  <section class="section" id="method">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-number">07</span>
-        <h2 class="section-title">SOP → Skill 通用方法论</h2>
-      </div>
-
-      <div class="illust-frame reveal reveal-d1">
-        <img src="assets/07-方法论.png" alt="方法论">
-      </div>
-
-      <div class="method-grid reveal reveal-d2">
-        <div class="method-card">
-          <div class="m-circle">🎯</div>
-          <h4>区分验收标准<br>和执行指令</h4>
-          <p>缺执行指令的SOP喂给AI一定出垃圾</p>
-          <div class="m-foot">01</div>
-        </div>
-        <div class="method-card">
-          <div class="m-circle">🚧</div>
-          <h4>标注AI能力边界</h4>
-          <p>做不到就声明,不假装</p>
-          <div class="m-foot">02</div>
-        </div>
-        <div class="method-card">
-          <div class="m-circle">⚖️</div>
-          <h4>拆分判断权</h4>
-          <p>AI做粗筛,人做终选</p>
-          <div class="m-foot">03</div>
-        </div>
-        <div class="method-card">
-          <div class="m-circle">⚡</div>
-          <h4>确定性工作脚本化</h4>
-          <p>API/RSS不需要AI推理</p>
-          <div class="m-foot">04</div>
-        </div>
-        <div class="method-card">
-          <div class="m-circle">🧬</div>
-          <h4>让反馈能沉淀</h4>
-          <p>偏好写进规则,下次自动继承</p>
-          <div class="m-foot">05</div>
+      <!-- 5步 -->
+      <div class="reveal reveal-d1" style="margin-bottom: 40px;">
+        <p style="font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-bottom: 16px;">Skill化 5 步：</p>
+        <div class="steps-bar">
+          <div class="sb-cell"><div class="sb-num">1</div><div class="sb-name">说清楚</div><div class="sb-you">你：回答做什么</div><div class="sb-ai">AI：提问引导</div></div>
+          <div class="sb-cell"><div class="sb-num">2</div><div class="sb-name">拆流程</div><div class="sb-you">你：确认对不对</div><div class="sb-ai">AI：画流程</div></div>
+          <div class="sb-cell"><div class="sb-num">3</div><div class="sb-name">试跑</div><div class="sb-you">你：看产出</div><div class="sb-ai">AI：执行一次</div></div>
+          <div class="sb-cell"><div class="sb-num">4</div><div class="sb-name">反馈</div><div class="sb-you">你：说哪不对</div><div class="sb-ai">AI：沉淀规则</div></div>
+          <div class="sb-cell"><div class="sb-num">5</div><div class="sb-name">固化</div><div class="sb-you">你：确认就这样</div><div class="sb-ai">AI：写成Skill</div></div>
         </div>
       </div>
+
+
+
+
     </div>
   </section>
 
