@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>最小心力的每日输入系统 — 拆书 Skill</title>
+  <title>最小心力的每日输入系统 - 拆书 Skill</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* 录屏用：基础字号加大 */
+    /* 录屏用:基础字号加大 */
     body {
       font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
       font-size: 19px;
@@ -84,7 +84,7 @@
       max-width: 640px;
     }
 
-    /* ===== HERO：双栏不对称 ===== */
+    /* ===== HERO:双栏不对称 ===== */
     .hero {
       min-height: 100vh;
       display: grid;
@@ -159,7 +159,7 @@
     }
     .hero-pill .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
 
-    /* ===== S1 起源：Sticky侧栏 ===== */
+    /* ===== S1 起源:Sticky侧栏 ===== */
     .layout-sticky {
       display: grid;
       grid-template-columns: 0.38fr 1fr;
@@ -228,7 +228,7 @@
     }
     .story-result p { font-size: 1.15rem; font-weight: 500; }
 
-    /* ===== S2 三层暗门：三卡递进 ===== */
+    /* ===== S2 三层暗门:三卡递进 ===== */
     .doors {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -324,7 +324,7 @@
     .flow-step--dark b { color: rgba(255,255,255,0.9); }
     .flow-step--dark span { color: #fff; }
 
-    /* ===== S3 摩擦力提问：图+对话 ===== */
+    /* ===== S3 摩擦力提问:图+对话 ===== */
     .friction-grid {
       display: grid;
       grid-template-columns: 0.85fr 1fr;
@@ -380,7 +380,7 @@
     }
     .chat-name.right { align-self: flex-end; }
 
-    /* ===== S4 一轮限制：全宽橙色品牌面板 ===== */
+    /* ===== S4 一轮限制:全宽橙色品牌面板 ===== */
     .section-dark {
       background: var(--orange);
       color: #fff;
@@ -474,17 +474,93 @@
       margin-top: 1rem;
     }
 
-    /* ===== S5 喂记忆：图右溢出 + 金句 ===== */
+    /* ===== Day 38 竖向时间线 ===== */
+    .day38-header { text-align: center; margin-bottom: 48px; }
+    .day38-timeline {
+      position: relative;
+      padding-left: 52px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .day38-timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--orange), var(--orange-soft));
+      border-radius: 2px;
+    }
+    .day38-node {
+      position: relative;
+      margin-bottom: 40px;
+    }
+    .day38-node::before {
+      content: '';
+      position: absolute;
+      left: -40px; top: 14px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--orange);
+      border: 3px solid var(--warm-dark);
+      box-shadow: 0 0 0 3px var(--orange-soft);
+    }
+    .day38-tag {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .day38-node-title {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+    .day38-card {
+      background: white;
+      border-radius: 14px;
+      padding: 26px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.04);
+    }
+    .day38-card p { font-size: 0.95rem; line-height: 1.85; color: var(--ink-light); }
+    .day38-card b { color: var(--ink); }
+    .day38-card--warm {
+      background: linear-gradient(135deg, #fff7f0 0%, white 100%);
+      border: 1px solid #f5dcc8;
+    }
+    .day38-card--bordered {
+      border-left: 3px solid var(--orange);
+    }
+    .day38-serif {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+      font-size: 1.02rem;
+      line-height: 2;
+      color: var(--ink);
+    }
+    .day38-feedback {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+      font-size: 1.02rem;
+      line-height: 2;
+      padding: 24px 28px;
+      background: white;
+      border-radius: 14px;
+      border-left: 3px solid var(--orange);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.04);
+      margin-top: 4px;
+      color: var(--ink-light);
+    }
+    .day38-feedback b { color: var(--ink); }
+
+    /* ===== S5 喂记忆:图右溢出 + 金句 ===== */
     .memory-grid {
       display: grid;
-      grid-template-columns: 1fr 0.8fr;
+      grid-template-columns: 1fr 1fr;
       gap: clamp(40px, 5vw, 72px);
-      align-items: center;
-    }
-    .memory-img { margin-right: -5vw; }
-    .memory-img img {
-      border-radius: 24px 0 0 24px;
-      box-shadow: 0 8px 36px rgba(26,26,46,0.08);
+      align-items: start;
     }
     .quote-minimal .quote-body {
       font-family: 'Noto Serif SC', serif;
@@ -525,7 +601,7 @@
       top: -2px;
     }
 
-    /* ===== S6 Skill 4步：纵向Step ===== */
+    /* ===== S6 Skill 4步:纵向Step ===== */
     .steps-wrap {
       display: grid;
       grid-template-columns: 0.42fr 1fr;
@@ -607,7 +683,7 @@
       max-width: 620px;
     }
 
-    /* ===== 怎么开始：两步（先安装，再开口） ===== */
+    /* ===== 怎么开始:两步(先安装,再开口) ===== */
     .start {
       padding: clamp(90px, 13vh, 160px) 0;
       background: var(--warm-dark);
@@ -753,8 +829,7 @@
       .hero, .friction-grid, .dark-grid, .memory-grid, .start-grid { grid-template-columns: 1fr; min-height: auto; }
       .layout-sticky, .steps-wrap, .doors { grid-template-columns: 1fr; }
       .sticky-side, .steps-intro { position: static; }
-      .memory-img { margin-right: 0; }
-      .memory-img img { border-radius: 20px; }
+
       .flow-step { grid-template-columns: 1fr; gap: 4px; }
       .story-item { grid-template-columns: 1fr; gap: 8px; }
     }
@@ -765,13 +840,13 @@
 </head>
 <body>
 
-  <!-- ====== HERO：双栏不对称 ====== -->
+  <!-- ====== HERO:双栏不对称 ====== -->
   <section class="hero">
     <div class="hero-text">
       <span class="hero-kicker"><img src="avatar.png" alt="Cola">Cola Skill 分享 · 来自真实用户实践</span>
       <h1>最小心力的<br><span class="accent">每日输入系统</span></h1>
-      <p class="hero-en">Daily input, minimal effort — 拆书 Skill</p>
-      <p class="desc">一个用户的 <span class="hl">100 天拆书实验</span>，被我们做成了所有人都能用的 Skill。每天一轮，拆一本你想读却读不下去的书。</p>
+      <p class="hero-en">Daily input, minimal effort - 拆书 Skill</p>
+      <p class="desc">一个用户的 <span class="hl">100 天拆书实验</span>,被我们做成了所有人都能用的 Skill。每天一轮,拆一本你想读却读不下去的书。</p>
     </div>
     <div class="hero-visual">
       <img src="00-封面-三层暗门.png" alt="三层暗门">
@@ -779,54 +854,58 @@
     </div>
   </section>
 
-  <!-- ====== S1 起源：Sticky侧栏 + 故事卡片 ====== -->
+  <!-- ====== S1 起源:Sticky侧栏 + 故事卡片 ====== -->
   <section class="section">
     <div class="container">
       <div class="layout-sticky">
         <div class="sticky-side reveal">
           <span class="section-number">01</span>
-          <h2 class="section-title">起源：一个用户的<br>100 天实验</h2>
-          <p class="section-sub">星宇，Cola 第一批内测用户。轨道行业，非技术出身。</p>
+          <h2 class="section-title">起源:一个用户的<br>100 天实验</h2>
+          <p class="section-sub">星宇,Cola 第一批内测用户。轨道行业,非技术出身。</p>
+          <!-- 用户真实分享截图 -->
+          <div style="margin-top:24px; border-radius:14px; overflow:hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.08);">
+            <img src="user-chat-origin.png" alt="用户分享拆书计划" style="width:100%; display:block;">
+          </div>
           <span class="big-word">Origin</span>
         </div>
         <div class="story-flow">
           <div class="story-item reveal">
             <span class="stage">卡住 →</span>
             <div>
-              <h3>想读《国富论》，读到一半放弃</h3>
-              <p>17 世纪的时代背景看不懂。把原文复制给 chatbot，AI 固定三段式拆解——"帮忙了很多"，但还是没读完。</p>
+              <h3>想读《国富论》,读到一半放弃</h3>
+              <p>17 世纪的时代背景看不懂。把原文复制给 chatbot,AI 固定三段式拆解--"帮忙了很多",但还是没读完。</p>
             </div>
           </div>
           <div class="story-item reveal reveal-d1">
             <span class="stage">转折 →</span>
             <div>
               <h3>看到李继刚老师的拆书提示词</h3>
-              <p>核心不是"帮你读懂"，而是一个概念——<span class="hl"><b>"暗门"</b></span>：不讲书的内容，讲<b>作者为什么要写这本书</b>。《传习录》的暗门是"为什么我明明知道却做不到"。</p>
+              <p>核心不是"帮你读懂",而是一个概念--<span class="hl"><b>"暗门"</b></span>:不讲书的内容,讲<b>作者为什么要写这本书</b>。《传习录》的暗门是"为什么我明明知道却做不到"。</p>
             </div>
           </div>
           <div class="story-item reveal reveal-d2">
             <span class="stage">行动 →</span>
             <div>
-              <h3>"我为什么不拿它去拆 100 本经典？"</h3>
-              <p>让 Cola 根据对他的记忆挑 100 本书，唯一原则：<span class="hl">跨文明、跨学科、跨时代</span>。分 10 个章程——哲学、人性、意识与感知……最后一程回到自己。</p>
+              <h3>"我为什么不拿它去拆 100 本经典?"</h3>
+              <p>让 Cola 根据对他的记忆挑 100 本书,唯一原则:<span class="hl">跨文明、跨学科、跨时代</span>。分 10 个章程--哲学、人性、意识与感知......最后一程回到自己。</p>
             </div>
           </div>
           <div class="story-result reveal reveal-d3">
-            <span class="num">35<span style="font-size:0.4em;">本</span></span>
-            <p>从 4 月 27 日启动至今，他已经拆了 35 本书，每天一本，从未间断的输入系统。</p>
+            <span class="num">50<span style="font-size:0.4em;">本</span></span>
+            <p>从 4 月 27 日启动至今,他已经拆了 50 本书,每天一本,从未间断的输入系统。</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== S2 三层暗门：三卡递进 ====== -->
+  <!-- ====== S2 三层暗门:三卡递进 ====== -->
   <section class="section section--alt">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-number">02</span>
-        <h2 class="section-title">核心方法论：三层暗门</h2>
-        <p class="section-sub">母题 ≠ 话题。<span class="hl">母题 = 作者彻夜未眠的问题。</span>每本书按三层递进拆解：</p>
+        <h2 class="section-title">核心方法论:三层暗门</h2>
+        <p class="section-sub">母题 ≠ 话题。<span class="hl">母题 = 作者彻夜未眠的问题。</span>每本书按三层递进拆解:</p>
       </div>
       <div class="doors">
         <div class="door-card reveal">
@@ -839,63 +918,78 @@
           <span class="layer-num">贰</span>
           <h3>核心机制</h3>
           <span class="tag">真正读进去的门槛</span>
-          <p>支撑论点的那个结构、逻辑、模型。比第一层难懂，理解了它才算真正读进去。</p>
+          <p>支撑论点的那个结构、逻辑、模型。比第一层难懂,理解了它才算真正读进去。</p>
         </div>
         <div class="door-card door-card--dark reveal reveal-d2">
           <span class="layer-num">叁</span>
           <h3>最暗的洞察</h3>
           <span class="tag">一本书真正危险的地方</span>
-          <p>作者没有明说、但逻辑推到底的东西——甚至是他自己都害怕的推论。</p>
+          <p>作者没有明说、但逻辑推到底的东西--甚至是他自己都害怕的推论。</p>
         </div>
       </div>
 
-      <div class="flow-example reveal">
-        <span class="ex-label">举个例子：拆《心流》</span>
-        <div class="flow-steps">
-          <div class="flow-step">
-            <b>第一层</b>
-            <span>米哈里想在心理学上定义"心流"——一种忘我的境界</span>
-          </div>
-          <div class="flow-step">
-            <b>第二层</b>
-            <span>进入心流的条件是什么？人处于心流时的体感是什么？</span>
-          </div>
-          <div class="flow-step flow-step--dark">
-            <b>第三层</b>
-            <span>心流不一定是好事——它在道德上是中性的：沉迷的赌徒、精心设计骗局的人，同样能进入忘我的心流</span>
-          </div>
+      <!-- 摩擦力提问强调 -->
+      <div class="reveal" style="margin-top:56px; display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:center; background:white; border-radius:16px; padding:32px 36px; box-shadow:0 4px 18px rgba(0,0,0,0.04);">
+        <img src="01-摩擦力提问.png" alt="摩擦力提问" style="width:140px; border-radius:12px;">
+        <div>
+          <h3 style="font-family:'Noto Serif SC',serif; font-weight:700; font-size:1.2rem; margin-bottom:10px;">+ 摩擦力提问</h3>
+          <p style="font-size:0.95rem; line-height:1.85; color:var(--ink-light);">拆完三层后，Cola 不会问“你怎么看这本书”。它问的是——<span class="hl"><b>“这个结构在你身上怎么运作”</b></span>。问题要有摩擦力，不能让人用一句漂亮话滑过去。它强迫你用自己的经历去回应一个真实的结构性问题。</p>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- ====== S3 摩擦力提问：图+对话气泡 ====== -->
-  <section class="section">
+  <!-- ====== 真实案例：Day 38 拆《心流》（竖向时间线风格） ====== -->
+  <section class="section section--alt">
     <div class="container">
-      <div class="friction-grid">
-        <div class="friction-img reveal">
-          <img src="01-摩擦力提问.png" alt="摩擦力提问">
+      <div class="day38-header reveal">
+        <span class="label-caps">A Real Session</span>
+        <h2 class="section-title">Day 38 · 拆《心流》</h2>
+        <p class="section-sub">一轮完整的拆书长什么样。星宇第 38 天的真实记录。</p>
+      </div>
+
+      <div class="day38-timeline">
+        <div class="day38-node reveal">
+          <p class="day38-tag">Step 1 · 三层暗门</p>
+          <h3 class="day38-node-title">Cola 拆解书的结构</h3>
+          <div class="day38-card">
+            <p><b>表面:</b>幸福是你从内部制造的状态。方法:把意识完全投入一件难度恰好匹配能力的事。</p>
+            <p style="margin-top:10px;"><b>机制:</b>意识每秒只处理 126 比特。心流 = 精神负熵--注意力被目标组织,关于"我"的噪音清零。</p>
+            <p style="margin-top:10px;"><b>最暗:</b>心流道德中立。"我该把人生投入什么"--这个问题需要在没有心流时面对。</p>
+          </div>
         </div>
-        <div class="reveal reveal-d1">
-          <span class="section-number">03</span>
-          <h2 class="section-title">让它和你有关：<br>摩擦力提问</h2>
-          <div class="friction-rules">
-            <div class="friction-rule">不问"你怎么看这本书"，问<span class="hl"><b>"这个结构在你身上怎么运作"</b></span></div>
-            <div class="friction-rule">问题要有摩擦力，<b>不能让人用一句漂亮话滑过去</b></div>
+
+        <div class="day38-node reveal">
+          <p class="day38-tag">Step 2 · 摩擦力提问</p>
+          <h3 class="day38-node-title">让它和你有关:不问"你怎么看",问"这个结构在你身上怎么运作"</h3>
+          <div class="day38-card day38-card--warm">
+            <p class="day38-serif">你现在同时推进的这些事,有哪些是你真正选择的,有哪些是"刚好有心流所以就继续做了"?</p>
+            <p class="day38-serif" style="margin-top:14px;">如果明天所有项目突然消失--<span class="hl"><b>留在你手里的、不需要任何外部条件就会做的事,是哪一件?</b></span></p>
           </div>
-          <div class="chat-container">
-            <span class="chat-name">Cola 拆完《心流》后问：</span>
-            <div class="chat-bubble ai">你现在做的这些事情——哪些是你自己选择的？哪些是刚好处于心流才继续做的？如果这些项目突然消失，你还要做一件事，是哪个？</div>
-            <span class="chat-name right">星宇用语音回复：</span>
-            <div class="chat-bubble user">除了 AI，让我进入心流的还有：开快车、有氧运动、收拾屋子、用盖碗泡茶……</div>
-            <span class="chat-name">Cola 反馈：确认符合作者推论的部分 → 拉开一层他没看到的视角 → 关联之前拆过的书。<b>一轮结束。</b></span>
+        </div>
+
+        <div class="day38-node reveal">
+          <p class="day38-tag">Step 3 · 用户回答</p>
+          <h3 class="day38-node-title">星宇的真实回应</h3>
+          <div class="day38-card day38-card--bordered">
+            <p>小学被父母怀疑多动症,老师总说我注意力不集中。后来带我去测智商,怀疑我是笨蛋。结果智商出奇意外的高--小学就测出 135。</p>
+            <p style="margin-top:14px;"><b>现在反过来想,小时候注意力不集中,就是当前的任务没有让我进入心流。</b>挑战太低,反馈太慢,自主感为零。不是我有病,是系统没有为我设置入口。</p>
+            <p style="margin-top:14px;">如果所有项目消失,我做的事就是继续好好收拾屋子,吃好每一顿饭,去跑步骑车。<b>它们也是生活中更重要的部分。</b></p>
           </div>
+        </div>
+
+        <div class="day38-node reveal">
+          <p class="day38-tag">Step 4 · Cola 反馈</p>
+          <h3 class="day38-node-title">确认 + 拉开新视角</h3>
+          <blockquote class="day38-feedback">"注意力集中"不是品德,是条件被满足后的自然结果。135 智商的孩子坐在普通课堂--挑战太低,反馈太慢,自主感为零--当然无法进入心流。<b>不是你有病,是系统没有为你设置入口。</b></blockquote>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- ====== S4 一轮限制：全宽深色面板 ====== -->
+  <!-- ====== S4 一轮限制:全宽深色面板 ====== -->
   <section class="section-dark">
     <div class="container">
       <div class="dark-grid">
@@ -909,101 +1003,110 @@
             <span class="step">反馈</span><span class="arrow">→</span>
             <span class="step">结束</span>
           </div>
-          <p class="note">不追问。避免每天花过多时间、反复讨论跑偏。让那个问题在你一天的生活里<b>慢慢发酵</b>。拆《资本论》那天"非常想讨论"就多聊了两轮——重点不是死守规则，而是有一个默认的节制。</p>
+          <p class="note">不追问。避免每天花过多时间、反复讨论跑偏。让那个问题在你一天的生活里<b>慢慢发酵</b>。拆《资本论》那天"非常想讨论"就多聊了两轮--重点不是死守规则,而是有一个默认的节制。</p>
         </div>
         <div class="dark-quote reveal reveal-d1">
           <span class="q-mark">"</span>
-          <p>拆书像喝高浓度代餐奶昔，读书本身是享受。两件不同的事。</p>
-          <p class="sub">拆书不替代阅读——他依然用微信读书从头到尾看书。拆书是用最小心力获得一本书最核心的东西。</p>
+          <p>拆书像喝高浓度代餐奶昔,读书本身是享受。两件不同的事。</p>
+          <p class="sub">拆书不替代阅读--他依然用微信读书从头到尾看书。拆书是用最小心力获得一本书最核心的东西。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== S5 意外收获：喂记忆 ====== -->
+  <!-- ====== S5 意外收获:喂记忆 ====== -->
   <section class="section">
     <div class="container">
       <div class="memory-grid">
+        <!-- 左侧:插画 + 文字内容 -->
         <div class="reveal">
           <span class="section-number">04</span>
-          <h2 class="section-title">意外收获：<br>最自然的"喂记忆"方式</h2>
+          <h2 class="section-title">意外收获:<br>最自然的"喂记忆"方式</h2>
           <div class="quote-minimal">
-            <p class="quote-body">普通人没有那么多语料。与其让 AI 问你 20 个虚无缥缈的问题（很累），不如<span class="hl">通过书籍产生摩擦</span>，让 Agent 通过你对书的观点了解你。</p>
+            <p class="quote-body">普通人没有那么多语料。与其让 AI 问你 20 个虚无缥缈的问题(很累),不如<span class="hl">通过书籍产生摩擦</span>,让 Agent 通过你对书的观点了解你。</p>
             <div class="quote-rule"></div>
-            <p class="quote-conclusion">拆书不只是学习，<br>它是让 AI 了解你的最自然的方式。</p>
+            <p class="quote-conclusion">拆书不只是学习,<br>它是让 AI 了解你的最自然的方式。</p>
           </div>
           <div class="memory-list">
-            <div class="item"><span>你对《罪与罚》的回答，暴露了你对<b>"聪明人特权"</b>的态度</span></div>
-            <div class="item"><span>你对《心流》的回答，暴露了你<b>真正在乎什么</b></span></div>
-            <div class="item"><span>30 天下来，AI 手里有 30 次你"被问住"后的真实回答——<b>比任何自我介绍都真实</b></span></div>
+            <div class="item"><span>你对《罪与罚》的回答,暴露了你对<b>"聪明人特权"</b>的态度</span></div>
+            <div class="item"><span>你对《心流》的回答,暴露了你<b>真正在乎什么</b></span></div>
+            <div class="item"><span>30 天下来,AI 手里有 30 次你"被问住"后的真实回答--<b>比任何自我介绍都真实</b></span></div>
           </div>
+
         </div>
-        <div class="memory-img reveal reveal-d1">
-          <img src="02-让问题发酵.png" alt="让问题发酵">
+        <!-- 右侧:三张截图放大 -->
+        <div class="reveal">
+          <div style="margin-bottom:16px;">
+            <img src="user-chat-memory.png" alt="用户说记忆关联性" style="border-radius:12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+            <p style="font-size:0.82rem; color:var(--ink-faint); margin-top:8px;">↑ "快让我分享一下 Cola 的强大,这就是我昨天说的记忆关联性"</p>
+          </div>
+          <img src="cola-memory-1.png" alt="Cola记忆关联示例1" style="width:100%; border-radius:12px; border:1px solid #eee; margin-bottom:14px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+          <img src="cola-memory-2.png" alt="Cola记忆关联示例2" style="width:100%; border-radius:12px; border:1px solid #eee; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+          <p style="font-size:0.82rem; color:var(--ink-faint); margin-top:10px;">↑ Cola 拆《罗马帝国衰亡史》时,把"繁荣制造衰亡"的逻辑关联到用户当前的精力状态</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== S6 Skill 4步：Sticky + 纵向Step ====== -->
+  <!-- ====== S6 Skill 4步:Sticky + 纵向Step ====== -->
   <section class="section section--alt">
     <div class="container">
       <div class="steps-wrap">
         <div class="steps-intro reveal">
           <span class="section-number">05</span>
           <h2 class="section-title">我们把它变成了<br>所有人都能用的 Skill</h2>
-          <p class="section-sub">星宇的版本强绑定个人——书单和提问都基于 Cola 对他的记忆。我们把它通用化成 4 步。</p>
+          <p class="section-sub">星宇的版本强绑定个人--书单和提问都基于 Cola 对他的记忆。我们把它通用化成 4 步。</p>
           <a class="gh-link" href="https://github.com/esthersjw/book-dissection-skill"><i data-lucide="github"></i> book-dissection-skill</a>
-          <span class="gh-note">已开源，任何 Cola 用户都能装 ↓</span>
+          <span class="gh-note">已开源,任何 Cola 用户都能装 ↓</span>
         </div>
         <div class="steps-container">
           <div class="step-item reveal">
             <span class="step-num">1</span>
             <h3>书单共创<span class="en">co-create</span></h3>
-            <p>Cola 不会上来就给书单。它先问你：<span class="hl">"什么问题让你睡不着？"</span>然后生成一份有暗线串联的书单，不是随机推荐。</p>
+            <p>Cola 不会上来就给书单。它先问你:<span class="hl">"什么问题让你睡不着?"</span>然后生成一份有暗线串联的书单,不是随机推荐。</p>
           </div>
           <div class="step-item reveal reveal-d1">
             <span class="step-num">2</span>
             <h3>每日定时拆书<span class="en">daily push</span></h3>
-            <p>设一个每日定时，到点 Cola 主动推送：三层暗门拆解 + 一个和你有关的摩擦力提问。</p>
+            <p>设一个每日定时,到点 Cola 主动推送:三层暗门拆解 + 一个和你有关的摩擦力提问。</p>
           </div>
           <div class="step-item reveal reveal-d2">
             <span class="step-num">3</span>
             <h3>互动与积累<span class="en">accumulate</span></h3>
-            <p>你回复，Cola 反馈并记录。下一次拆书时它会翻看你之前的回答，<b>提问越来越贴近你</b>。</p>
+            <p>你回复,Cola 反馈并记录。下一次拆书时它会翻看你之前的回答,<b>提问越来越贴近你</b>。</p>
           </div>
           <div class="step-item reveal reveal-d3">
             <span class="step-num">4</span>
             <h3>阶段性回顾<span class="en">review</span></h3>
-            <p>每 10 本一次复盘——这一程讲了什么、你反复出现的主题、思维上发生了什么变化。</p>
+            <p>每 10 本一次复盘--这一程讲了什么、你反复出现的主题、思维上发生了什么变化。</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== 怎么开始：先安装，再开口 ====== -->
+  <!-- ====== 怎么开始:先安装,再开口 ====== -->
   <section class="start">
     <div class="container">
       <div class="start-header reveal">
         <span class="caveat-lead">How to start</span>
-        <h2>怎么开始？两步。</h2>
+        <h2>怎么开始?两步。</h2>
       </div>
       <div class="start-grid">
         <div class="start-card reveal">
           <span class="step-badge">第一步</span>
           <h3>先安装 Skill</h3>
-          <p class="must">不装是用不了的，先装 ✦</p>
-          <div class="install-say">跟 Cola 说：<br>"帮我安装这个仓库"
+          <p class="must">不装是用不了的,先装 ✦</p>
+          <div class="install-say">跟 Cola 说:<br>"帮我安装这个仓库"
             <span class="repo">https://github.com/esthersjw/book-dissection-skill</span>
           </div>
-          <p class="install-note">把仓库链接一起发给它，剩下的交给 Cola。</p>
+          <p class="install-note">把仓库链接一起发给它,剩下的交给 Cola。</p>
         </div>
         <div class="start-card start-card--talk reveal reveal-d1">
           <span class="step-badge">第二步</span>
           <h3>然后开口说一句</h3>
           <div class="say"><span class="quote-mark">"</span>我想开始拆书计划。<span class="quote-mark">"</span></div>
-          <p class="after">它会从了解你开始——<br>问你"什么问题让你睡不着"，<br>再一起共创属于你的书单。</p>
+          <p class="after">它会从了解你开始--<br>问你"什么问题让你睡不着",<br>再一起共创属于你的书单。</p>
         </div>
       </div>
     </div>
@@ -1011,7 +1114,7 @@
 
   <footer>
     <img class="footer-logo" src="Cola_Landscape_Lockup_Orange.svg" alt="Cola">
-    <p>Cola OS 使用分享 · 方法论致谢：李继刚老师的拆书提示词 · 实践者：用户九末南枳（星宇）</p>
+    <p>Cola OS 使用分享 · 方法论致谢:李继刚老师的拆书提示词 · 实践者:用户九末南枳(星宇)</p>
   </footer>
 
   <script>
