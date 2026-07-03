@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>棋盘工作流 - 我的 Cola 玩法</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --orange: #F1752D;
+      --orange-deep: #D45A1A;
+      --orange-light: #FFE0CC;
+      --dark: #1A1A2E;
+      --warm-white: #FFF8F0;
+      --cream: #FFF8F0;
+      --cream-dark: #faf6eb;
+      --ink: #1A1A2E;
+      --ink-light: #4A4A5A;
+      --ink-faint: #8A8A9A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--ink);
+      background: var(--cream);
+    }
+
+    ::selection {
+      background: var(--orange-light);
+      color: var(--ink);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ======== NAV ======== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(255,248,240,.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(26,26,46,.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.06); }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-brand img { height: 28px; }
+    .nav-brand span {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+    .nav-links { display: flex; gap: 1.8rem; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 0.82rem;
+      position: relative;
+      transition: color .2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 2px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transition: transform .25s ease-out;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ======== HERO ======== */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 0.5fr;
+      align-items: center;
+      gap: clamp(40px, 6vw, 80px);
+      padding: 7rem 2rem 4rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .hero-text .label-caps {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--orange);
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.2;
+      color: var(--ink);
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--ink-light);
+      margin-top: 1.5rem;
+      max-width: 520px;
+      line-height: 1.9;
+    }
+    .hero-meta {
+      margin-top: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-meta img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .hero-meta-text {
+      font-size: 0.82rem;
+      color: var(--ink-faint);
+    }
+    .hero-meta-text strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-glyph {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(8rem, 18vw, 14rem);
+      font-weight: 900;
+      color: var(--orange);
+      opacity: 0.08;
+      line-height: 1;
+      user-select: none;
+    }
+    .hero-float {
+      position: absolute;
+      background: white;
+      padding: 0.6em 1.2em;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      color: var(--ink-light);
+    }
+    .hero-float--top { top: 15%; right: -10%; }
+    .hero-float--bottom { bottom: 20%; left: -5%; }
+    .hero-float i { width: 16px; height: 16px; color: var(--orange); }
+
+    /* ======== SECTION COMMON ======== */
+    .section {
+      padding: clamp(80px, 12vh, 160px) 0;
+    }
+    .section--alt { background: var(--cream-dark); }
+    .section-header {
+      margin-bottom: clamp(40px, 6vw, 80px);
+    }
+    .section-number {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--orange);
+      opacity: 0.3;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--ink);
+    }
+
+    /* ======== SECTION 1: PAIN (Split) ======== */
+    .split-section {
+      min-height: 80vh;
+      display: grid;
+      grid-template-columns: 0.45fr 1fr;
+      overflow: hidden;
+    }
+    .split-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(40px, 6vw, 80px);
+    }
+    .split-left h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.3;
+    }
+    .split-left .section-number {
+      margin-bottom: 0.5rem;
+    }
+    .split-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(40px, 6vw, 80px);
+      background: var(--cream-dark);
+    }
+    .pain-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .pain-list li {
+      font-size: 1.05rem;
+      color: var(--ink-light);
+      padding-left: 28px;
+      position: relative;
+      line-height: 1.9;
+    }
+    .pain-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2.5px solid var(--orange);
+      opacity: 0.5;
+    }
+    .pain-summary {
+      margin-top: 2rem;
+      padding: 20px 24px;
+      background: white;
+      border-radius: 12px;
+      border-left: 4px solid var(--orange);
+    }
+    .pain-summary p {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.9;
+    }
+
+    /* ======== SECTION 2: THREE DESIGNS (Magazine Editorial) ======== */
+    .chair-magazine-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .chair-magazine-card {
+      position: relative;
+      padding: 32px 0;
+    }
+    .chair-magazine-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--ink);
+      opacity: 0.08;
+    }
+    .chair-magazine-card .chair-num {
+      font-family: 'Fraunces', serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--ink-faint);
+      margin-bottom: 12px;
+    }
+    .chair-magazine-card h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 14px;
+      color: var(--ink);
+    }
+    .chair-magazine-card p {
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.9;
+    }
+    .chair-magazine-card .chair-tag {
+      display: inline-block;
+      margin-top: 18px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.65rem;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    /* 信息分级表 */
+    .grade-table {
+      margin-top: 1.5rem;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .grade-table th,
+    .grade-table td {
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(26,26,46,0.06);
+    }
+    .grade-table th {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
+      font-weight: 500;
+    }
+    .grade-table td {
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
+    .grade-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .grade-dot--green { background: #4CAF50; }
+    .grade-dot--yellow { background: #FFC107; }
+    .grade-dot--red { background: #E84A5F; }
+
+    /* ======== SECTION 3: DIRECTORY (Light Panel + macOS Code) ======== */
+    .dir-section {
+      background: var(--cream-dark);
+      padding: clamp(80px, 12vh, 160px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .dir-section-deco {
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      font-family: 'Fraunces', serif;
+      font-size: 18rem;
+      font-weight: 900;
+      color: rgba(241,117,45,0.04);
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+    .code-macos {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+      max-width: 700px;
+    }
+    .code-macos .code-titlebar {
+      background: #f0ece4;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .code-macos .code-dots { display: flex; gap: 6px; }
+    .code-macos .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .code-macos .dot:nth-child(1) { background: #ff5f56; }
+    .code-macos .dot:nth-child(2) { background: #ffbd2e; }
+    .code-macos .dot:nth-child(3) { background: #27c93f; }
+    .code-macos .code-filename {
+      flex: 1;
+      text-align: center;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+    }
+    .code-macos .code-body {
+      background: #faf6eb;
+      padding: 28px 32px;
+      overflow-x: auto;
+    }
+    .code-macos pre {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 2.1;
+      color: var(--ink);
+      margin: 0;
+      white-space: pre;
+    }
+    .code-macos .dir { color: var(--orange); font-weight: 600; }
+    .code-macos .file { color: #2B7FD8; }
+    .code-macos .cm { color: var(--ink-faint); }
+    .code-macos .hl { color: var(--orange-deep); }
+
+    /* ======== SECTION 4: WORKFLOW (Vertical Steps) ======== */
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(36px, 4vw, 56px);
+      padding-left: 70px;
+      position: relative;
+      max-width: 780px;
+    }
+    .steps-container::before {
+      content: '';
+      position: absolute;
+      left: 22px;
+      top: 40px; bottom: 40px;
+      width: 2px;
+      border-left: 2px dashed rgba(241,117,45,0.25);
+    }
+    .step-item {
+      position: relative;
+    }
+    .step-num {
+      position: absolute;
+      left: -70px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .step-item h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .step-item p {
+      font-size: 1.05rem;
+      color: var(--ink-light);
+      line-height: 1.9;
+    }
+    .step-note {
+      margin-top: 10px;
+      font-family: 'Caveat', cursive;
+      font-size: 0.95rem;
+      color: var(--orange);
+    }
+
+    /* ======== SECTION 5: EXIT (Sticky Side) ======== */
+    .layout-sticky {
+      display: grid;
+      grid-template-columns: 0.35fr 1fr;
+      gap: clamp(40px, 6vw, 100px);
+      align-items: start;
+    }
+    .sticky-side {
+      position: sticky;
+      top: 100px;
+    }
+    .sticky-side .section-number {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      opacity: 0.15;
+    }
+    .sticky-side h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      margin-top: 0.5rem;
+    }
+    .sticky-side .sticky-hint {
+      margin-top: 1rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--orange);
+    }
+    .exit-rules {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .exit-card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .exit-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+    }
+    .exit-card:nth-child(1)::before { background: #FFC107; }
+    .exit-card:nth-child(2)::before { background: var(--orange); }
+    .exit-card:nth-child(3)::before { background: var(--ink); }
+    .exit-card h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .exit-card p {
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.9;
+    }
+    .exit-card .exit-timing {
+      margin-top: 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.05em;
+    }
+
+    /* ======== SECTION 5B: QUOTE (Pull Quote) ======== */
+    .exit-quote {
+      margin-top: 2.5rem;
+      border-top: 4px solid var(--orange);
+      border-bottom: 4px solid var(--orange);
+      padding: 36px 28px;
+      text-align: center;
+    }
+    .exit-quote p {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 700;
+      line-height: 1.8;
+      color: var(--ink);
+    }
+
+    /* ======== SECTION 6: FROM ZERO (Numbered Cards) ======== */
+    .start-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .start-card {
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      padding: 44px 24px 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .start-card .start-big-num {
+      position: absolute;
+      top: -12px;
+      right: -5px;
+      font-family: 'Fraunces', serif;
+      font-size: 5.5rem;
+      font-weight: 900;
+      line-height: 1;
+      pointer-events: none;
+      color: rgba(241,117,45,0.07);
+    }
+    .start-card h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .start-card p {
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      position: relative;
+    }
+
+    /* ======== FOOTER ======== */
+    .footer {
+      padding: clamp(40px, 6vh, 80px) 0;
+      text-align: center;
+      border-top: 1px solid rgba(26,26,46,0.06);
+    }
+    .footer-logo { height: 24px; opacity: 0.5; margin-bottom: 1rem; }
+    .footer p {
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+    }
+
+    /* ======== SCROLL REVEAL ======== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ======== RESPONSIVE ======== */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 5rem 1.5rem 3rem;
+      }
+      .hero-visual { display: none; }
+      .split-section {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .chair-magazine-grid {
+        grid-template-columns: 1fr;
+      }
+      .layout-sticky {
+        grid-template-columns: 1fr;
+      }
+      .sticky-side {
+        position: static;
+      }
+      .start-grid {
+        grid-template-columns: 1fr;
+      }
+      .steps-container {
+        padding-left: 56px;
+      }
+      .step-num { left: -56px; width: 38px; height: 38px; font-size: 0.9rem; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 15px; }
+      .hero h1 { font-size: clamp(1.8rem, 8vw, 2.8rem); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====== NAV ====== -->
+  <nav>
+    <a class="nav-brand" href="#">
+      <img src="Cola_Landscape_Lockup_Orange.svg" alt="Cola">
+    </a>
+    <div class="nav-links">
+      <a href="#pain">痛点</a>
+      <a href="#design">核心设计</a>
+      <a href="#structure">目录结构</a>
+      <a href="#workflow">工作流</a>
+      <a href="#exit">退出机制</a>
+      <a href="#start">从零开始</a>
+    </div>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <section class="hero">
+    <div class="hero-text">
+      <span class="label-caps">Cola Workflow · Chessboard</span>
+      <h1>让 Cola 不只会记事,<br>还会<em>看局</em></h1>
+      <p class="hero-desc">在 Obsidian Vault 里建一套本地 Markdown 文件结构,让 Cola 每次开工前先读一遍棋盘,就能立刻知道你现在在什么局里、手里有什么牌、该往哪走。</p>
+      <div class="hero-meta">
+        <img src="avatar.png" alt="Cola">
+        <div class="hero-meta-text">
+          <strong>陈星宇(LateMav)</strong><br>2026-06-22
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <span class="hero-glyph">棋</span>
+      <span class="hero-float hero-float--top">
+        <i data-lucide="eye"></i>
+        看全局
+      </span>
+      <span class="hero-float hero-float--bottom">
+        <i data-lucide="map"></i>
+        再动手
+      </span>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 1: 为什么需要棋盘(左大字+右正文) ====== -->
+  <section class="section" id="pain">
+    <div class="container">
+      <div style="display:grid; grid-template-columns:0.35fr 1fr; gap:60px; align-items:start;" class="reveal">
+        <div>
+          <span class="section-number">01</span>
+          <h2 class="section-title">为什么需要棋盘</h2>
+        </div>
+        <div>
+          <p style="font-size:1.1rem; line-height:2.1; color:var(--ink-light); margin-bottom:1.2em;">你上次说了什么、做了什么任务、读了什么书。这些东西散落在对话里、笔记里、脑子里。</p>
+          <p style="font-size:1.1rem; line-height:2.1; color:var(--ink-light); margin-bottom:1.2em;"><strong style="color:var(--ink);">棋盘工作流就是为了解决这个问题:在 Obsidian Vault 里建一套本地 Markdown 文件结构,让 Cola 每次开工前先读一遍棋盘,就能立刻知道你现在在什么局里、手里有什么牌、该往哪走。</strong></p>
+          <p style="font-size:1.1rem; line-height:2.1; color:var(--ink-light);">一句话:<strong style="color:var(--ink);">把散落的资源、人脉、机会,变成一张能看、能走、能迭代的地图。</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 2: THREE CORE DESIGNS ====== -->
+  <section class="section" id="design">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">02</span>
+        <h2 class="section-title">核心思路:不是档案,是供需</h2>
+      </div>
+      <div class="chair-magazine-grid">
+        <div class="chair-magazine-card reveal reveal-d1">
+          <div class="chair-num">i.</div>
+          <h3>供需思维</h3>
+          <p>传统人脉管理问"这人是干什么的"。棋盘不这么问--棋盘问的是:他对我来说是供给端还是需求端?他和我正在推进的哪件事有关?</p>
+          <p style="margin-top:12px;">同一个人,今天可能是供给方,明天变成需求方。角色是流动的,不贴死标签。</p>
+          <span class="chair-tag">Supply & Demand</span>
+        </div>
+        <div class="chair-magazine-card reveal reveal-d2">
+          <div class="chair-num">ii.</div>
+          <h3>信息分级</h3>
+          <p>不是按关系亲疏分,而是按信息可信度。亲戚可能是🟡,陌生人可能是🟢--唯一的判断标准:你能不能确定对方没动机骗你。</p>
+          <table class="grade-table">
+            <tr><th>等级</th><th>含义</th></tr>
+            <tr><td><span class="grade-dot grade-dot--green"></span>原始情报</td><td>他说的就是他真实想的</td></tr>
+            <tr><td><span class="grade-dot grade-dot--yellow"></span>过滤情报</td><td>有价值但有选择性表达</td></tr>
+            <tr><td><span class="grade-dot grade-dot--red"></span>展示情报</td><td>对方说的是想让你看到的</td></tr>
+          </table>
+          <span class="chair-tag">Intel Grading</span>
+        </div>
+        <div class="chair-magazine-card reveal reveal-d3">
+          <div class="chair-num">iii.</div>
+          <h3>三层分离</h3>
+          <p>棋盘严格分开三件事:人脉(能帮我做事的人)、认知(影响了我判断的人)、项目(正在推进的事)。</p>
+          <p style="margin-top:12px;">孟岩的播客教会了你"能力圈"概念--他是信源。但他不是你的人脉,他不认识你。</p>
+          <span class="chair-tag">Three Layers</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 3: DIRECTORY STRUCTURE ====== -->
+  <section class="dir-section" id="structure">
+    <span class="dir-section-deco">///</span>
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">03</span>
+        <h2 class="section-title">目录结构</h2>
+      </div>
+      <div class="reveal reveal-d1">
+        <p style="font-size:1rem; color:var(--ink-light); margin-bottom:2rem; max-width:560px;">放在 Obsidian Vault 里,全是本地 Markdown,Cola 直接读。</p>
+        <div class="code-macos">
+          <div class="code-titlebar">
+            <div class="code-dots">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <span class="code-filename">Cola/棋盘/</span>
+          </div>
+          <div class="code-body">
+<pre><span class="dir">Cola/棋盘/</span>
+├── <span class="file">棋盘.md</span>              <span class="cm">← 总入口(Cola 每次先读这个)</span>
+├── <span class="file">我的牌.md</span>            <span class="cm">← 我能供给什么、缺什么</span>
+├── <span class="file">Cola的判断与策略.md</span>   <span class="cm">← Agent 的独立分析空间</span>
+├── <span class="file">推进日志.md</span>          <span class="cm">← 时间线记录 + 金句</span>
+│
+├── <span class="dir">核心圈/</span>              <span class="cm">← 🟢 零过滤的人</span>
+│   ├── <span class="hl">*核心圈总索引.md</span>
+│   └── <span class="file">{人名}.md</span>
+├── <span class="dir">外围圈/</span>              <span class="cm">← 🟡/🔴 需甄别的人</span>
+│   ├── <span class="hl">*外围圈总索引.md</span>
+│   └── <span class="file">{人名}.md</span>
+├── <span class="dir">棋局/</span>                <span class="cm">← 每盘棋一个文件</span>
+│   └── <span class="file">棋局·{项目名}.md</span>
+└── <span class="dir">信源/</span>                <span class="cm">← 影响判断的认知来源</span>
+    ├── <span class="hl">*信源总索引.md</span>
+    └── <span class="file">{人名}.md</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 4: WORKFLOW (Steps) ====== -->
+  <section class="section section--alt" id="workflow">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Cola 怎么用棋盘</h2>
+      </div>
+      <div class="steps-container">
+        <div class="step-item reveal">
+          <span class="step-num">1</span>
+          <h3>开新会话 → 先读棋盘.md</h3>
+          <p>获得全局视图:现在有哪些局在推进、每个局卡在哪、当前最该做什么。</p>
+        </div>
+        <div class="step-item reveal reveal-d1">
+          <span class="step-num">2</span>
+          <h3>处理新信息 → 逐步确认工作流</h3>
+          <p>先判断这段信息属于哪盘棋,告诉你看到了什么、打算提取什么,等你确认后再动手。</p>
+          <span class="step-note">→ 不自作主张,永远先问</span>
+        </div>
+        <div class="step-item reveal reveal-d2">
+          <span class="step-num">3</span>
+          <h3>按框架提取</h3>
+          <p>供给侧 / 需求侧 / 连接线索 / 待确认--结构化归档到对应文件。</p>
+        </div>
+        <div class="step-item reveal reveal-d3">
+          <span class="step-num">4</span>
+          <h3>发现新人物 → 默认外围圈</h3>
+          <p>新人物标🟡放外围圈,不主动升核心圈--等你说。</p>
+        </div>
+        <div class="step-item reveal reveal-d4">
+          <span class="step-num">5</span>
+          <h3>发现新项目 → 建棋局文件</h3>
+          <p>更新棋盘总表,问你"你在这个局里是什么角色"--供给方/需求方/连接者/操盘手/观察者。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 5: 退出机制(时间线) ====== -->
+  <section class="section" id="exit">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">05</span>
+        <h2 class="section-title">退出机制</h2>
+        <p style="margin-top:12px; font-size:1.1rem; color:var(--ink-light);"><strong>棋盘不是仓库--有进必须有出。</strong></p>
+      </div>
+      <div style="position:relative; padding-left:48px; max-width:780px;" class="reveal">
+        <div style="position:absolute; left:18px; top:8px; bottom:8px; width:2px; background:linear-gradient(to bottom, var(--orange), var(--orange-light)); border-radius:2px;"></div>
+        <div style="position:relative; margin-bottom:28px;">
+          <div style="position:absolute; left:-38px; top:8px; width:12px; height:12px; border-radius:50%; background:var(--orange); border:3px solid var(--cream);"></div>
+          <p style="font-size:1.05rem; line-height:2; color:var(--ink-light);"><strong style="color:var(--ink);">人物文件 6 个月没更新</strong> → 休眠,加前缀标注</p>
+        </div>
+        <div style="position:relative; margin-bottom:28px;">
+          <div style="position:absolute; left:-38px; top:8px; width:12px; height:12px; border-radius:50%; background:var(--orange); border:3px solid var(--cream);"></div>
+          <p style="font-size:1.05rem; line-height:2; color:var(--ink-light);"><strong style="color:var(--ink);">棋局 2 周没进展</strong> → 标观望;<strong style="color:var(--ink);">3 个月没进展</strong> → 休眠;<strong style="color:var(--ink);">6 个月或明确放弃</strong> → 归档</p>
+        </div>
+        <div style="position:relative; margin-bottom:28px;">
+          <div style="position:absolute; left:-38px; top:8px; width:12px; height:12px; border-radius:50%; background:var(--orange); border:3px solid var(--cream);"></div>
+          <p style="font-size:1.05rem; line-height:2; color:var(--ink-light);"><strong style="color:var(--ink);">每季度核心圈复核</strong>:Cola 主动问"这三个月有没有谁说话开始有保留了"</p>
+        </div>
+        <div style="position:relative;">
+          <div style="position:absolute; left:-38px; top:8px; width:12px; height:12px; border-radius:50%; background:var(--orange); border:3px solid var(--cream);"></div>
+          <p style="font-family:'Noto Serif SC',serif; font-weight:700; font-size:1.05rem; line-height:2; color:var(--ink);">主动判断"这局不下了"本身就是一次高价值决策。归档不删文件--复盘时可能需要追溯"当时为什么放弃"。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION 6: FROM ZERO ====== -->
+  <section class="section section--alt" id="start">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">06</span>
+        <h2 class="section-title">怎么从零开始</h2>
+      </div>
+      <div class="start-grid">
+        <div class="start-card reveal reveal-d1">
+          <span class="start-big-num">01</span>
+          <h3>建目录结构</h3>
+          <p>7 个文件 + 4 个子目录。照着上面的文件树抄就行。</p>
+        </div>
+        <div class="start-card reveal reveal-d2">
+          <span class="start-big-num">02</span>
+          <h3>写「我的牌」</h3>
+          <p>诚实盘点--你能供给什么、你缺什么、你卡在哪。不是简历,是能力翻译。</p>
+        </div>
+        <div class="start-card reveal reveal-d3">
+          <span class="start-big-num">03</span>
+          <h3>建棋局文件</h3>
+          <p>把正在做的项目各建一个棋局文件:这盘什么局、你是什么角色、当前卡点。</p>
+        </div>
+        <div class="start-card reveal reveal-d1">
+          <span class="start-big-num">04</span>
+          <h3>人先放外围圈</h3>
+          <p>认识的人全放外围圈,再挑真正能信的人移进核心圈。宁少勿多。</p>
+        </div>
+        <div class="start-card reveal reveal-d2">
+          <span class="start-big-num">05</span>
+          <h3>写入信源</h3>
+          <p>谁的哪个观点改变过你的行为?那就是你的信源--记下来。</p>
+        </div>
+        <div class="start-card reveal reveal-d3">
+          <span class="start-big-num">06</span>
+          <h3>告诉 Cola</h3>
+          <p>"以后每次开工先读棋盘.md"--一句话激活整个系统。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CLOSING QUOTE + CTA ====== -->
+  <section class="section" style="padding: clamp(60px, 8vh, 120px) 0;">
+    <div class="container" style="max-width: 720px; text-align: center;">
+      <div class="reveal">
+        <p style="font-family:'Noto Serif SC',serif; font-size:clamp(1.1rem, 2.5vw, 1.5rem); font-weight:700; line-height:2; color:var(--ink);">
+          棋盘工作流的核心不是文件结构——<br>
+          <span style="color:var(--orange);">是那个“先看全局再动手”的习惯。</span>
+        </p>
+        <p style="margin-top:2rem; font-size:1rem; color:var(--ink-light); line-height:1.9;">
+          Cola 的记忆银行负责记事，棋盘负责看局。<br>两者配合，Cola 才不会每次开新会话都失忆，<br>而是像一个真正了解你处境的搭档一样，<br>上来就知道你现在在什么位置、该往哪走。
+        </p>
+        <a href="https://github.com/esthersjw/chessboard-workflow" target="_blank" style="display:inline-block; margin-top:2.5rem; padding:16px 40px; background:var(--orange); color:white; font-weight:700; font-size:1.05rem; border-radius:100px; text-decoration:none; transition:transform 0.2s, box-shadow 0.2s; box-shadow:0 4px 16px rgba(241,117,45,0.25);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 24px rgba(241,117,45,0.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 16px rgba(241,117,45,0.25)'">获取 Skill → GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <img class="footer-logo" src="Cola_Landscape_Lockup_Orange.svg" alt="Cola">
+    <p>陈星宇(LateMav) · 2026-06-22 · Powered by Cola</p>
+  </footer>
+
+  <!-- ====== JS ====== -->
+  <script>
+    // Scroll Reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Nav scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
